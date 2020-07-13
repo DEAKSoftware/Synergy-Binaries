@@ -1,0 +1,3 @@
+[submodule "Synergy-Core"]
+	path = Synergy-Core
+	url = https://github.com/symless/synergy-core.git

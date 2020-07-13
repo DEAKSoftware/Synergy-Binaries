@@ -1,0 +1,11 @@
+app: Synergy
+
+ingredients:
+  dist: ulyana
+  sources:
+    - deb http://packages.linuxmint.com/pool/main/ ulyana main
+  debs:
+    - /home/dom/Coding/synergy_1.12.0_amd64.deb
+
+script:
+  - cp ./usr/share/icons/hicolor/scalable/apps/synergy.svg .

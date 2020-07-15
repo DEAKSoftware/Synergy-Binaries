@@ -102,8 +102,8 @@ SYNOPSIS
 DESCRIPTION
 
 	Synergy is a keyboard and mouse sharing tool for devices connected over a network.
-	The official maintainers of Synergy no longer publish binaries without users paying for it.
-	Therefore, your alternative is to build Synergy yourself. This tool will help you do that.
+	As of version 1.8.8, Synergy maintainers only publish binaries behind a pay wall.
+	The other alternative is building Synergy from sources. This tool will help you do that.
 
 	-h, --help
 

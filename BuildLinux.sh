@@ -14,12 +14,9 @@ synergyVersion="${SYNERGY_VERSION_MAJOR}.${SYNERGY_VERSION_MINOR}.${SYNERGY_VERS
 
 buildCMake() {
 
-	pushd "${buildPath}" || exit 1
+	cmake -S "${synergyCorePath}" -B "${buildPath}" -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON || exit 1
+	cmake --build "${buildPath}" --parallel 8 || exit 1
 
-		cmake -S "${synergyCorePath}" -B "${buildPath}" -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON || exit 1
-		cmake --build "${buildPath}" --parallel 8 || exit 1
-
-	popd
 }
 
 buildAppImage() {
@@ -48,6 +45,7 @@ buildAppImage() {
 		mv "${buildPath}/"*.AppImage "${binariesPath}"
 
 	popd
+
 }
 
 buildDeb() {
@@ -60,16 +58,13 @@ buildDeb() {
 
 	popd
 
-	pushd "${buildPath}" || exit 1
+	mv "${synergyCorePath}/../"*.deb "${binariesPath}"
 
-		mv "${synergyCorePath}/../"*.deb "${binariesPath}"
+	rename "s/(\\d+\\.\\d+.\\d+)/\$1-${linuxVersion}/g" "${binariesPath}"/*.deb
 
-		rename "s/(\\d+\\.\\d+.\\d+)/\$1-${linuxVersion}/g" "${binariesPath}"/*.deb
+	mv "${synergyCorePath}/../synergy_${synergyVersion}"* "${buildPath}"
+	mv "${synergyCorePath}/../synergy-dbgsym_${synergyVersion}"* "${buildPath}"
 
-		mv "${synergyCorePath}/../synergy_${synergyVersion}"* "${buildPath}"
-		mv "${synergyCorePath}/../synergy-dbgsym_${synergyVersion}"* "${buildPath}"
-
-	popd
 }
 
 buildClean() {

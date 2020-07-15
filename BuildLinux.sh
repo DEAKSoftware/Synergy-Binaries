@@ -1,9 +1,9 @@
 #!/bin/bash
 
 scriptPath="$( cd "$(dirname "${0}")" ; pwd -P )"
-buildPath="${scriptPath}/Build"
-binariesPath="${scriptPath}/Binaries"
 synergyCorePath="${scriptPath}/Synergy-Core"
+buildPath="${synergyCorePath}/build"
+binariesPath="${scriptPath}/Binaries"
 
 source /etc/os-release || exit 1
 cat "${synergyCorePath}/Build.properties" | perl -pe "s/(SYNERGY\w+) *= */export \1=/" > "${buildPath}/version"
@@ -52,24 +52,33 @@ buildAppImage() {
 
 buildDeb() {
 
+	pushd "${synergyCorePath}" || exit 1
+
+		printf "synergy (${synergyVersion}) ${SYNERGY_VERSION_STAGE}; urgency=medium\n" > "debian/changelog"
+		debuild --set-envvar CMAKE_BUILD_TYPE=MINSIZEREL --set-envvar SYNERGY_ENTERPRISE=ON -us -uc
+		git clean -fd
+
+	popd
+
 	pushd "${buildPath}" || exit 1
 
-		pushd "${synergyCorePath}" || exit 1
-
-			printf "synergy (${synergyVersion}) ${synergyStage}; urgency=medium\n" > "debian/changelog"
-			debuild --set-envvar CMAKE_BUILD_TYPE=MINSIZEREL --set-envvar SYNERGY_ENTERPRISE=ON -us -uc
-			git clean -fd
-
-		popd
-
 		mv "${synergyCorePath}/../"*.deb "${binariesPath}"
-		rm "${synergyCorePath}/../synergy_${synergyVersion}"*
-		rm "${synergyCorePath}/../synergy-dbgsym_${synergyVersion}"*
+
+		rename "s/(\\d+\\.\\d+.\\d+)/\$1-${linuxVersion}/g" "${binariesPath}"/*.deb
+
+		mv "${synergyCorePath}/../synergy_${synergyVersion}"* "${buildPath}"
+		mv "${synergyCorePath}/../synergy-dbgsym_${synergyVersion}"* "${buildPath}"
 
 	popd
 }
 
 buildClean() {
+
+	pushd "${synergyCorePath}" || exit 1
+
+		git clean -fd
+
+	popd
 
 	rm -fR "${buildPath}/"*
 	rm -fR "${binariesPath}/"*
@@ -78,7 +87,6 @@ buildClean() {
 	touch "${binariesPath}/.keep"
 
 }
-
 
 if [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 

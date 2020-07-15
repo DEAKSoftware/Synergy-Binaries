@@ -1,2 +1,2 @@
-Build/*
-!Build/.keep
+Binaries/*
+!Binaries/.keep

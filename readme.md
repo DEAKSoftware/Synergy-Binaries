@@ -1,6 +1,6 @@
 # Synergy Binaries
 
-Synergy is a keyboard and mouse sharing tool for devices connected over a network. Up until version 1.8.8, binaries were freely available to download. Since then, [Synergy maintainers](https://github.com/symless/synergy-core) decided to publish binaries behind a pay wall. However, Synergy is an open source project, and therefore anyone can build the application on their system.
+Synergy is a keyboard and mouse sharing tool for devices connected over a network. Up until version 1.8.8, binaries were freely available to download from the official project website. Since then, [Synergy maintainers](https://github.com/symless/synergy-core) have decided to publish binaries behind a pay wall. However, Synergy is an open source project, and therefore anyone can build the application on their system.
 
 This repository provides some convenience tools and documentation for building Synergy. Alternatively, one can also [download](https://github.com/DEAKSoftware/Synergy-Binaries/releases) the pre-compiled binaries.
 

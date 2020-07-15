@@ -6,10 +6,10 @@ buildPath="${synergyCorePath}/build"
 binariesPath="${scriptPath}/Binaries"
 
 source /etc/os-release || exit 1
-cat "${synergyCorePath}/Build.properties" | perl -pe "s/(SYNERGY\w+) *= */export \1=/" > "${buildPath}/version"
-source "${buildPath}/version" || exit 1
-
 linuxVersion="${ID}-${VERSION_CODENAME}"
+
+cat "${synergyCorePath}/Build.properties" | perl -pe "s/(SYNERGY\w+) *= */export \1=/" > "${buildPath}/version" || exit 1
+source "${buildPath}/version" || exit 1
 synergyVersion="${SYNERGY_VERSION_MAJOR}.${SYNERGY_VERSION_MINOR}.${SYNERGY_VERSION_PATCH}"
 
 buildCMake() {
@@ -54,8 +54,8 @@ buildDeb() {
 
 	pushd "${synergyCorePath}" || exit 1
 
-		printf "synergy (${synergyVersion}) ${SYNERGY_VERSION_STAGE}; urgency=medium\n" > "debian/changelog"
-		debuild --set-envvar CMAKE_BUILD_TYPE=MINSIZEREL --set-envvar SYNERGY_ENTERPRISE=ON -us -uc
+		printf "synergy (${synergyVersion}) ${SYNERGY_VERSION_STAGE}; urgency=medium\n" > "debian/changelog" || exit 1
+		debuild --set-envvar CMAKE_BUILD_TYPE=MINSIZEREL --set-envvar SYNERGY_ENTERPRISE=ON -us -uc || exit 1
 		git clean -fd
 
 	popd
@@ -127,7 +127,7 @@ DESCRIPTION
 
 	--clean
 
-		Clean the Build and Binaries output."
+		Clean the build and output locations."
 
 	exit 0
 

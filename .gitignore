@@ -1,2 +1,4 @@
 Binaries/*
 !Binaries/.keep
+Tools/*
+!Tools/.keep

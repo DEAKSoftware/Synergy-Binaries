@@ -1,9 +1,9 @@
 ---
 name: Update Request
 about: Request an update for Synergy binaries
-title: ''
+title: 'Update Request: [SPECIFY VERSION HERE]'
 labels: Update
 assignees: ''
 ---
 
-Request for a new Synergy build, version [SPECIFY VERSION HERE].
+Write additional notes here.

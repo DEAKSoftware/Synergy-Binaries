@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a bug report if something is broken
+about: Create a bug report if something is broken in the build system
 title: ''
 labels: Bug
 assignees: ''

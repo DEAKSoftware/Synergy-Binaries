@@ -21,6 +21,7 @@ The following files or directories should be of interest:
 File / Directory                         | Description
 ---                                      | ---
 [`Binaries`](./Binaries)                 | Output location for the build binaries.
+[`Tools`](./Tools)                       | Temporary location for build tools.
 `Synergy-Core`                           | The official Synergy Core submodule.
 [`buildLinux.sh`](./buildLinux.sh)       | Shell script for building binaries in Linux Mint or Ubuntu.
 

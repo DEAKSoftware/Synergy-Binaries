@@ -30,7 +30,7 @@ File / Directory                         | Description
 [`buildWindows.ps1`](./buildWindows.ps1) | PowerShell script for building binaries in Windows.
  -->
 
-## Clone This Repository
+## Cloning the Repository
 
 Before you begin building Synergy, you need to recursively clone this project and its submodules:
 

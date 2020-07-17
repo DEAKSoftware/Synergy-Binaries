@@ -58,7 +58,7 @@ Install the following packages:
 
 For building Debian packages:
 
-	sudo apt-get install devscripts build-essential lintian
+	sudo apt-get install build-essential devscripts dh-make lintian
 
 Alternatively, consult the [official wiki](https://github.com/symless/synergy-core/wiki/Compiling) for installing dependencies.
 

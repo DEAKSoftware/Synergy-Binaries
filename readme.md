@@ -1,6 +1,6 @@
 # Synergy Binaries
 
-Synergy is a keyboard and mouse sharing tool for devices connected over a network. Up until version 1.8.8, binaries were freely available to download from the official project website. Since then, [Synergy maintainers](https://github.com/symless/synergy-core) have decided to publish binaries behind a pay wall. However, Synergy is an open source project, and therefore anyone can build the application on their system.
+[Synergy](https://github.com/symless/synergy-core) is a keyboard and mouse sharing tool for devices connected over a network. Up until version 1.8.8, binaries were freely available to download from the official project website. Since then, Synergy maintainers have decided to publish binaries behind a pay wall. However, Synergy is an open source project, and therefore anyone can build the application on their system.
 
 This repository provides some convenience tools and documentation for building Synergy. Alternatively, one can also [download](https://github.com/DEAKSoftware/Synergy-Binaries/releases) the pre-compiled binaries.
 
@@ -9,9 +9,13 @@ Information presented here is based on the [official wiki pages](https://github.
 
 ## Download Binaries
 
-See [releases section](https://github.com/DEAKSoftware/Synergy-Binaries/releases) to locate binaries for your machine.
+The following binaries available in the [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) section:
 
-If you can't locate a binary package for your distribution, consider building the project yourself.
+* Linux `AppImage`, `deb` packages
+* Windows `MSI` installer
+* macOS `dmg` packages
+
+If you can't locate a binary package for your particular distribution, try building the project yourself.
 
 
 ## Project Structure
@@ -82,7 +86,7 @@ Alternatively, you can opt to build the binaries only, as detailed below. We're 
 
 In Linux Mint we can launch `synergy` client automatically via _System Settings &rarr; Startup Applications_, then add an entry with the command:
 
-	/usr/local/bin/synergy --name ClientName --daemon #.#.#.#
+	/usr/bin/synergyc --name ClientName --daemon #.#.#.#
 
 Substitute the `ClientName` with the local machine name, and the Synergy server IP `#.#.#.#` with whatever appropriate for your set-up.
 

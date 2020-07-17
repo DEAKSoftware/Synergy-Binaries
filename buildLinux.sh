@@ -2,15 +2,15 @@
 
 upstreamURL="https://github.com/DEAKSoftware/Synergy-Binaries.git"
 queriedURL="$( git config --get remote.origin.url )"
+toplevelPath="$( git rev-parse --show-toplevel )"
 
-if [ "${upstreamURL}" != "${queriedURL}" ]; then
+if [ "${upstreamURL}" != "${queriedURL}" ] || [ "${toplevelPath}" == "" ]; then
 
-	echo "error: Unexpected Git upstream URL. This script must run within the repository top-level directory."
+	echo "error: Unrecognised Git upstream URL, or top-level directory. This script must run within the top-level directory of the Synergy-Binaries repository."
 	exit 1
 
 fi
 
-toplevelPath="$( git rev-parse --show-toplevel )"
 synergyCorePath="${toplevelPath}/Synergy-Core"
 buildPath="${synergyCorePath}/build"
 binariesPath="${toplevelPath}/Binaries"

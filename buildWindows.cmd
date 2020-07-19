@@ -46,7 +46,7 @@ call "%vcvarsallCommand%" x64
 
 
 call :configure
-call :buildMSI
+call :buildStandalone
 
 
 exit 0
@@ -67,6 +67,7 @@ exit 0
 	call "%buildPath%\version.bat"
 	set synergyVersion=%SYNERGY_VERSION_MAJOR%.%SYNERGY_VERSION_MINOR%.%SYNERGY_VERSION_PATCH%
 	set synergyVersionStage=%SYNERGY_VERSION_STAGE%
+	set synergyReleaseName=synergy-%synergyVersion%-%synergyVersionStage%-windows-x64
 	exit /b 0
 
 :configure
@@ -79,7 +80,6 @@ exit 0
 :buildMSBuild
 
 	pushd "%buildPath%"
-	if %errorlevel% equ 1 exit 1
 
 		msbuild synergy-core.sln /p:Platform="x64" /p:Configuration=Release /m
 		if %errorlevel% equ 1 exit 1
@@ -88,33 +88,42 @@ exit 0
 
 	exit /b 0
 
-:buildZIP
+:buildStandalone
 
 	setlocal
 
-	set inputPath=%buildPath%\bin\Release
-	set outputPath=%binariesPath%\Synergy-%synergyVersion%-%synergyVersionStage%-x64
+	set releaseBinPath=%buildPath%\bin\Release
 
-	mkdir "%outputPath%"
+	set tempPath=%buildPath%\bin\%synergyReleaseName%
 
-	copy "%inputPath%\libEGL.dll"     "%outputPath%"
-	copy "%inputPath%\libGLESv2.dll"  "%outputPath%"
-	copy "%inputPath%\Qt5Core.dll"    "%outputPath%"
-	copy "%inputPath%\Qt5Gui.dll"     "%outputPath%"
-	copy "%inputPath%\Qt5Network.dll" "%outputPath%"
-	copy "%inputPath%\Qt5Svg.dll"     "%outputPath%"
-	copy "%inputPath%\Qt5Widgets.dll" "%outputPath%"
-	copy "%inputPath%\synergy.exe"    "%outputPath%"
-	copy "%inputPath%\synergyc.exe"   "%outputPath%"
-	copy "%inputPath%\synergyd.exe"   "%outputPath%"
-	copy "%inputPath%\synergys.exe"   "%outputPath%"
-	copy "%inputPath%\syntool.exe"    "%outputPath%"
+	mkdir "%tempPath%"
 
-	mkdir "%outputPath%\Platforms"
-	copy "%inputPath%\Platforms" "%outputPath%\Platforms"
+	copy "%releaseBinPath%\libEGL.dll"     "%tempPath%"
+	copy "%releaseBinPath%\libGLESv2.dll"  "%tempPath%"
+	copy "%releaseBinPath%\Qt5Core.dll"    "%tempPath%"
+	copy "%releaseBinPath%\Qt5Gui.dll"     "%tempPath%"
+	copy "%releaseBinPath%\Qt5Network.dll" "%tempPath%"
+	copy "%releaseBinPath%\Qt5Svg.dll"     "%tempPath%"
+	copy "%releaseBinPath%\Qt5Widgets.dll" "%tempPath%"
+	copy "%releaseBinPath%\synergy.exe"    "%tempPath%"
+	copy "%releaseBinPath%\synergyc.exe"   "%tempPath%"
+	copy "%releaseBinPath%\synergyd.exe"   "%tempPath%"
+	copy "%releaseBinPath%\synergys.exe"   "%tempPath%"
+	copy "%releaseBinPath%\syntool.exe"    "%tempPath%"
 
-	mkdir "%outputPath%\OpenSSL"
-	copy "%synergyCorePath%\ext\openssl\windows\x64\bin\*" "%outputPath%\OpenSSL"
+	mkdir "%tempPath%\Platforms"
+	copy "%releaseBinPath%\Platforms" "%tempPath%\Platforms"
+
+	mkdir "%tempPath%\Styles"
+	copy "%releaseBinPath%\Styles" "%tempPath%\Styles"
+
+	mkdir "%tempPath%\OpenSSL"
+	copy "%synergyCorePath%\ext\openssl\windows\x64\bin\*" "%tempPath%\OpenSSL"
+	copy "%synergyCorePath%\ext\openssl\windows\x64\bin\*.dll" "%tempPath%"
+
+	set zipPath=%binariesPath%\%synergyReleaseName%.zip
+
+	powershell.exe -nologo -noprofile -command "& { Compress-Archive -Force -Path '%tempPath%' -DestinationPath '%zipPath%' }"
 
 	endlocal
 	exit /b 0
@@ -122,7 +131,6 @@ exit 0
 :buildMSI
 
 	pushd "%buildPath%\installer"
-	if %errorlevel% equ 1 exit 1
 
 		msbuild Synergy.sln /p:Configuration=Release
 		if %errorlevel% equ 1 exit 1
@@ -132,21 +140,19 @@ exit 0
 	copy "%buildPath%\installer\bin\Release\Synergy.msi" "%binariesPath%"
 	if %errorlevel% equ 1 exit 1
 
-	ren "%binariesPath%\Synergy.msi"	"Synergy-%synergyVersion%-%synergyVersionStage%-x64.msi"
+	ren "%binariesPath%\Synergy.msi"	"%synergyReleaseName%.msi"
 
 	exit /b 0
 
 :buildClean
 
 	pushd "%synergyCorePath%"
-	if %errorlevel% equ 1 exit 1
 
 		git clean -fdx
 
 	popd
 
 	pushd "%toplevelPath%"
-	if %errorlevel% equ 1 exit 1
 
 		git clean -fdx
 

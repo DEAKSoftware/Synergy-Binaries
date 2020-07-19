@@ -22,16 +22,16 @@ If you can't locate a binary package for your particular distribution, try build
 
 The following files or directories should be of interest:
 
-File / Directory                         | Description
----                                      | ---
-[`Binaries`](./Binaries)                 | Output location for the build binaries.
-`Synergy-Core`                           | The official Synergy Core submodule.
-[`Tools`](./Tools)                       | Temporary location for build tools.
-[`buildLinux.sh`](./buildLinux.sh)       | Shell script for building binaries in Linux Mint or Ubuntu.
+File / Directory                                            | Description
+---                                                         | ---
+[`Binaries`](./Binaries)                                    | Output location for the build binaries.
+[`Synergy-Core`]((https://github.com/symless/synergy-core/) | The official Synergy Core submodule.
+[`Tools`](./Tools)                                          | Temporary location for build tools.
+[`buildLinux.sh`](./buildLinux.sh)                          | Shell script for building binaries in Linux Mint or Ubuntu.
 
 <!--
-[`buildMacOS.sh`](./buildMacOS.sh)       | Shell script for building binaries in macOS.
-[`buildWindows.ps1`](./buildWindows.ps1) | PowerShell script for building binaries in Windows.
+[`buildMacOS.sh`](./buildMacOS.sh)                          | Shell script for building binaries in macOS.
+[`buildWindows.ps1`](./buildWindows.ps1)                    | PowerShell script for building binaries in Windows.
  -->
 
 ## Cloning the Repository
@@ -52,9 +52,15 @@ Before you begin building Synergy, you need to recursively clone this project an
 
 ### Prerequisites
 
-Install the following packages:
+Install the following tools and dependencies:
 
-	sudo apt-get install qtcreator qtbase5-dev qttools5-dev cmake make g++ xorg-dev libssl-dev libx11-dev libsodium-dev libgl1-mesa-glx libegl1-mesa libcurl4-openssl-dev libavahi-compat-libdnssd-dev qtdeclarative5-dev libqt5svg5-dev libsystemd-dev
+	sudo apt-get install \
+		cmake g++ libavahi-compat-libdnssd-dev \
+		libcurl4-openssl-dev libegl1-mesa \
+		libgl1-mesa-glx libqt5svg5-dev libsodium-dev \
+		libssl-dev libsystemd-dev libx11-dev \
+		make qtbase5-dev qtcreator qtdeclarative5-dev \
+		qttools5-dev xorg-dev
 
 For building Debian packages:
 
@@ -64,7 +70,7 @@ Alternatively, consult the [official wiki](https://github.com/symless/synergy-co
 
 ### Building
 
-Run the shell script with `buildLinux.sh --all` to build all packages. For other options, run with the `--help` switch.
+Run the shell script `buildLinux.sh --all` to build all packages. For other options, run with the `--help` switch.
 
 Alternatively, you can opt to build the binaries only, as detailed below. We're assuming the current path is in the `Synergy-Binaries` project root.
 
@@ -98,11 +104,33 @@ Substitute the `ClientName` with the local machine name, and the Synergy server 
 ## macOS
 
 _Incomplete._
+-->
 
 ## Windows
 
-_Incomplete._
- -->
+### Prerequisites
+
+1. Install the following tools and dependencies:
+
+	* [Git for Windows](https://gitforwindows.org/)
+	* [CMake](https://cmake.org/)
+	* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/), select the following components:
+		* VS 2019 C++ x64/x86 build tools
+		* Windows 10 SDK
+	* [WiX Toolset](https://wixtoolset.org/releases/), install the following components:
+		* WiX Toolset Build Tools
+		* WiX Toolset Visual Studio 2019 Extension
+	* [Qt 5](https://www.qt.io/download), select the following components:
+		* Qt 5.12.9, MSVC 2017 64-bit
+
+2.
+
+### Building
+
+Run the command script `buildWindows.cmd --all` to build all packages. For other options, run with the `--help` switch.
+
+Alternatively, you can opt to build the binaries only, as detailed below. We're assuming the current path is in the `Synergy-Binaries` project root.
+
 
 ## Disclaimers and Legal
 

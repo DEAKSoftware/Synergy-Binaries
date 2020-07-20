@@ -54,51 +54,9 @@ buildCMake() {
 
 }
 
-buildAppImage() {
+buildDMG() {
 
-	pushd "${toolsPath}" || exit 1
-
-		wget -O linuxdeploy -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage || exit 1
-		chmod a+x linuxdeploy || exit 1
-
-		# Needed by linuxdeploy
-		export VERSION="${synergyVersion}-${linuxVersion}"
-
-		appImagePath="${buildPath}/Synergy-${VERSION}.AppDir"
-
-		./linuxdeploy \
-			--appdir "${appImagePath}" \
-			--executable "${buildPath}/bin/synergy" \
-			--executable "${buildPath}/bin/synergyc" \
-			--executable "${buildPath}/bin/synergyd" \
-			--executable "${buildPath}/bin/synergys" \
-			--executable "${buildPath}/bin/syntool" \
-			--create-desktop-file \
-			--icon-file "${synergyCorePath}/res/synergy.svg" \
-			--output appimage || exit 1
-
-		mv "${toolsPath}/"*.AppImage "${binariesPath}"
-
-	popd
-
-}
-
-buildDeb() {
-
-	pushd "${synergyCorePath}" || exit 1
-
-		printf "synergy (${synergyVersion}) ${synergyVersionStage}; urgency=medium\n" > "debian/changelog" || exit 1
-		debuild --set-envvar CMAKE_BUILD_TYPE=MINSIZEREL --set-envvar SYNERGY_ENTERPRISE=ON -us -uc || exit 1
-		git clean -fd
-
-	popd
-
-	mv "${synergyCorePath}/../"*.deb "${binariesPath}"
-
-	rename "s/(\\d+\\.\\d+.\\d+)/\$1-${linuxVersion}/g" "${binariesPath}"/*.deb
-
-	mv "${synergyCorePath}/../synergy_${synergyVersion}"* "${buildPath}"
-	mv "${synergyCorePath}/../synergy-dbgsym_${synergyVersion}"* "${buildPath}"
+	echo .
 
 }
 
@@ -120,30 +78,23 @@ buildClean() {
 
 if [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 
-	cat "${toplevelPath}/Documentation/HelpLinux.txt"
+	cat "${toplevelPath}/Documentation/HelpMacOS.txt"
 
 elif [ "${1}" = "--cmake" ]; then
 
 	configure
 	buildCMake
 
-elif [ "${1}" = "--appimage" ]; then
+elif [ "${1}" = "--dmg" ]; then
 
 	configure
-	buildCMake
-	buildAppImage
-
-elif [ "${1}" = "--deb" ]; then
-
-	configure
-	buildDeb
+	buildDMG
 
 elif [ "${1}" = "--all" ]; then
 
 	configure
 	buildCMake
-	buildAppImage
-	buildDeb
+	buildDMG
 
 elif [ "${1}" = "--clean" ]; then
 

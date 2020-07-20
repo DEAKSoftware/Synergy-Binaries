@@ -48,7 +48,7 @@ configure() {
 }
 
 
-buildCMake() {
+buildBinaries() {
 
 	cmake --build "${buildPath}" --parallel 8 || exit 1
 
@@ -122,15 +122,15 @@ if [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 
 	cat "${toplevelPath}/Documentation/HelpLinux.txt"
 
-elif [ "${1}" = "--cmake" ]; then
+elif [ "${1}" = "--bin" ]; then
 
 	configure
-	buildCMake
+	buildBinaries
 
 elif [ "${1}" = "--appimage" ]; then
 
 	configure
-	buildCMake
+	buildBinaries
 	buildAppImage
 
 elif [ "${1}" = "--deb" ]; then
@@ -141,7 +141,7 @@ elif [ "${1}" = "--deb" ]; then
 elif [ "${1}" = "--all" ]; then
 
 	configure
-	buildCMake
+	buildBinaries
 	buildAppImage
 	buildDeb
 

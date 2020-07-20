@@ -54,27 +54,27 @@ if [%1] equ [--help] (
 
 	type "%toplevelPath%\Documentation\HelpWindows.txt"
 
-) else if [%1] equ [--msbuild] (
+) else if [%1] equ [--bin] (
 
 	call :configure
-	call :buildMSBuild
+	call :buildBinaries
 
 ) else if [%1] equ [--msi] (
 
 	call :configure
-	call :buildMSBuild
+	call :buildBinaries
 	call :buildMSI
 
 ) else if [%1] equ [--zip] (
 
 	call :configure
-	call :buildMSBuild
+	call :buildBinaries
 	call :buildZIP
 
 ) else if [%1] equ [--all] (
 
 	call :configure
-	call :buildMSBuild
+	call :buildBinaries
 	call :buildMSI
 	call :buildZIP
 
@@ -117,7 +117,7 @@ exit 0
 	call :configureVersion
 	exit /b 0
 
-:buildMSBuild
+:buildBinaries
 
 	pushd "%buildPath%"
 

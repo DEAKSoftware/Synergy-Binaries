@@ -11,17 +11,17 @@ DESCRIPTION
 	-h, --help
 		Display this help message.
 
-	--msbuild
-		Build binaries only with MSBuild.
+	--bin
+		Build binaries only.
 
 	--msi
-		Build an MSI package.
+		Build binaries and package them as MSI installer.
 
 	--zip
-		Build a standalone ZIP package.
+		Build standalone binaries and package them as a ZIP file.
 
 	--all
-		Build all packages.
+		Build all targets.
 
 	--clean
 		Clean the build and output locations.

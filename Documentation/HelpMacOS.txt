@@ -1,5 +1,5 @@
 NAME
-	buildMacOS.sh - Build Linux Binaries for Synergy
+	buildMacOS.sh - Build macOS Binaries for Synergy
 
 SYNOPSIS
 	./buildMacOS.sh [OPTION]
@@ -12,14 +12,13 @@ DESCRIPTION
 		Display this help message.
 
 	--app
-		Build the application bundle.
+		Build application bundle only.
 
 	--dmg
-		Build a DMG disk image file.
+		Build binaries and package them as a DMG disk image file.
 
 	--all
-		Build all packages.
+		Build all targets.
 
 	--clean
 		Clean the build and output locations.
-

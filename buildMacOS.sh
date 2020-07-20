@@ -79,7 +79,7 @@ buildDMG() {
 
 	ln -s /Applications "${buildPath}/bundle/Applications"
 
-	hdiutil create -volname "Synergy ${synergyVersion}" -srcfolder "${buildPath}/bundle" -ov -format UDBZ "${binariesPath}/${synergyReleaseName}.dmg" || exit 1
+	hdiutil create -volname "Synergy ${synergyVersion}" -srcfolder "${buildPath}/bundle" -ov -format UDZO "${binariesPath}/${synergyReleaseName}.dmg" || exit 1
 
 }
 

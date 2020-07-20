@@ -11,18 +11,17 @@ DESCRIPTION
 	-h, --help
 		Display this help message.
 
-	--cmake
-		Build binaries only with CMake.
+	--bin
+		Build binaries only.
 
 	--appimage
-		Build an AppImage package.
+		Build binaries and package them as an AppImage.
 
 	--deb
-		Build a Debian package.
+		Build binaries and package them as a Debian package.
 
 	--all
-		Build all packages.
+		Build all targets.
 
 	--clean
 		Clean the build and output locations.
-

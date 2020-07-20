@@ -22,6 +22,7 @@
 
 Run the command script `buildMacOS.sh --all` to build all packages. For other options, run with the `--help` switch.
 
-### Compiling (Hard Mode)
+<!-- ### Compiling (Hard Mode)
 
 Alternatively, you can opt to build the binaries only, as detailed below. We're assuming the current path is in the `Synergy-Binaries` project root.
+ -->

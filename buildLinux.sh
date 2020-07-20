@@ -120,7 +120,7 @@ buildClean() {
 
 if [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 
-	cat "${toplevelPath}\Documentation\buildLinux.txt"
+	cat "${toplevelPath}/Documentation/buildLinux.txt"
 
 elif [ "${1}" = "--cmake" ]; then
 

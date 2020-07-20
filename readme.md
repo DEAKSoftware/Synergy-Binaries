@@ -24,7 +24,7 @@ The information presented here is based on the [official wiki pages](https://git
 	* [Compiling](https://github.com/symless/synergy-core/wiki/Compiling), and [Compiling Synergy Core](https://github.com/symless/synergy-core/wiki/Compiling-Synergy-Core)
 	* [Building the Windows MSI Package](https://github.com/symless/synergy-core/wiki/Building-the-Windows-MSI-Package)
 
-2. Preparation Work
+2. Getting Started
 	* [Cloning the Repository](./Documentation/Cloning.md)
 
 3. Building the Binaries

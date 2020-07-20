@@ -120,44 +120,7 @@ buildClean() {
 
 if [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 
-	echo \
-"NAME
-
-	${0} - Build Linux Binaries for Synergy
-
-SYNOPSIS
-
-	${0} [OPTION]
-
-DESCRIPTION
-
-	This is a utility script for building Synergy binaries and distribution packages.
-	The script will build the latest snapshot from the Synergy-Core submodule.
-
-	-h, --help
-
-		Display this help message.
-
-	--cmake
-
-		Build binaries only with CMake.
-
-	--appimage
-
-		Build an AppImage package.
-
-	--deb
-
-		Build a Debian package.
-
-	--all
-
-		Build all packages.
-
-	--clean
-
-		Clean the build and output locations."
-
+	cat "${toplevelPath}\Documentation\buildLinux.txt"
 	exit 0
 
 elif [ "${1}" = "--cmake" ]; then

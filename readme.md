@@ -77,13 +77,11 @@ For building Debian packages:
 
 	sudo apt-get install build-essential devscripts dh-make lintian
 
-#### Compiling
-
-**Easy Mode:**
+#### Compiling (Easy Mode)
 
 Run the shell script `buildLinux.sh --all` to build all packages. For other options, run with the `--help` switch.
 
-**Hard Mode:**
+#### Compiling (Hard Mode)
 
 Alternatively, you can opt to build the binaries only, as detailed below. We're assuming the current path is in the `Synergy-Binaries` project root.
 
@@ -138,13 +136,11 @@ _Incomplete._
 
 	* `cmakeGenerator` - Specifies the "generator" setting for cmake. Run `cmake --help` to choose the suitable generator for your current tool chain.
 
-#### Compiling
-
-**Easy Mode:**
+#### Compiling (Easy Mode)
 
 Run the command script `buildWindows.cmd --all` to build all packages. For other options, run with the `--help` switch.
 
-**Hard Mode:**
+#### Compiling (Hard Mode)
 
 Alternatively, you can opt to build the binaries only, as detailed below. We're assuming the current path is in the `Synergy-Binaries` project root.
 

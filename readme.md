@@ -12,7 +12,7 @@ Information presented here is based on the [official wiki pages](https://github.
 The following binaries available in the [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) section:
 
 * Linux `AppImage`, `deb` packages
-* Windows `MSI` installer
+* Windows `MSI` installer, or standalone `ZIP` package
 * macOS `dmg` packages
 
 If you can't locate a binary package for your particular distribution, try building the project yourself.

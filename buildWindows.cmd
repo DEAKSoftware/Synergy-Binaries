@@ -3,51 +3,84 @@
 set libQtPath=c:\Qt\Qt5.12.9\5.12.9\msvc2017_64
 
 if not exist "%libQtPath%" (
-	echo "error: Unable to resolve Qt library. Make sure the 'libQtPath' variable is correct."
+	echo error: Unable to resolve Qt library. Make sure the 'libQtPath' variable is correct.
 	exit 1
-	)
+)
 
 rem https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019
 set vcvarsallCommand=c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
 
 if not exist "%vcvarsallCommand%" (
-	echo "error: Unable to resolve vcvarsall command file. Make sure the 'vcvarsallCommand' variable is correct."
+	echo error: Unable to resolve vcvarsall command file. Make sure the 'vcvarsallCommand' variable is correct.
 	exit 1
-	)
+)
 
 set upstreamURL=https://github.com/DEAKSoftware/Synergy-Binaries.git
 
 for /F "tokens=* USEBACKQ" %%F in (`git config --get remote.origin.url`) do (
 	set queriedURL=%%F
-	)
+)
 
-if "%upstreamURL%" NEQ "%queriedURL%" (
-	echo "error: Unrecognised Git upstream URL. This script must run within the top-level directory of the Synergy-Binaries repository."
+if "%upstreamURL%" neq "%queriedURL%" (
+	echo error: Unrecognised Git upstream URL. This script must run within the top-level directory of the Synergy-Binaries repository.
 	exit 1
-	)
+)
 
 for /F "tokens=* USEBACKQ" %%F in (`git rev-parse --show-toplevel`) do (
 	set toplevelPath=%%F
-	)
+)
 
-if "%toplevelPath%" EQU "" (
-	echo "error: Unrecognised top-level directory. This script must run within the top-level directory of the Synergy-Binaries repository."
+if "%toplevelPath%" equ "" (
+	echo error: Unrecognised top-level directory. This script must run within the top-level directory of the Synergy-Binaries repository.
 	exit 1
-	)
+)
 
 set synergyCorePath=%toplevelPath%\Synergy-Core
 set buildPath=%synergyCorePath%\build
 set binariesPath=%toplevelPath%\Binaries
 set toolsPath=%toplevelPath%\Tools
 
-call "%vcvarsallCommand%" x64
-
 :main
 
+if [%1] equ [--help] (
 
-call :configure
-call :buildStandalone
+	type "%toplevelPath%\Documentation\buildWindows.txt"
+	exit 0
 
+) else if [%1] equ [--msbuild] (
+
+	call :configure
+	call :buildMSBuild
+
+) else if [%1] equ [--msi] (
+
+	call :configure
+	call :buildMSBuild
+	call :buildMSI
+
+) else if [%1] equ [--zip] (
+
+	call :configure
+	call :buildMSBuild
+	call :buildZIP
+
+) else if [%1] equ [--all] (
+
+	call :configure
+	call :buildMSBuild
+	call :buildMSI
+	call :buildZIP
+
+) else if [%1] equ [--clean] (
+
+	call :buildClean
+
+) else (
+
+	echo error: Bad or unknown option. Run with '--help' option for details.
+	exit 1
+
+)
 
 exit 0
 
@@ -72,6 +105,7 @@ exit 0
 
 :configure
 
+	call "%vcvarsallCommand%" x64
 	call :configureSubmodules
 	call :configureCMake
 	call :configureVersion
@@ -88,7 +122,23 @@ exit 0
 
 	exit /b 0
 
-:buildStandalone
+:buildMSI
+
+	pushd "%buildPath%\installer"
+
+		msbuild Synergy.sln /p:Configuration=Release
+		if %errorlevel% equ 1 exit 1
+
+	popd
+
+	copy "%buildPath%\installer\bin\Release\Synergy.msi" "%binariesPath%"
+	if %errorlevel% equ 1 exit 1
+
+	ren "%binariesPath%\Synergy.msi"	"%synergyReleaseName%.msi"
+
+	exit /b 0
+
+:buildZIP
 
 	setlocal
 
@@ -126,22 +176,6 @@ exit 0
 	powershell.exe -nologo -noprofile -command "& { Compress-Archive -Force -Path '%tempPath%' -DestinationPath '%zipPath%' }"
 
 	endlocal
-	exit /b 0
-
-:buildMSI
-
-	pushd "%buildPath%\installer"
-
-		msbuild Synergy.sln /p:Configuration=Release
-		if %errorlevel% equ 1 exit 1
-
-	popd
-
-	copy "%buildPath%\installer\bin\Release\Synergy.msi" "%binariesPath%"
-	if %errorlevel% equ 1 exit 1
-
-	ren "%binariesPath%\Synergy.msi"	"%synergyReleaseName%.msi"
-
 	exit /b 0
 
 :buildClean

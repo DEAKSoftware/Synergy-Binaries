@@ -1,0 +1,36 @@
+NAME
+
+	buildWindows.cmd - Build Linux Binaries for Synergy
+
+SYNOPSIS
+
+	buildWindows.cmd [OPTION]
+
+DESCRIPTION
+
+	This is a utility script for building Synergy binaries and distribution packages.
+	The script will build the latest snapshot from the Synergy-Core submodule.
+
+	--help
+
+		Display this help message.
+
+	--msbuild
+
+		Build binaries only with MSBuild.
+
+	--msi
+
+		Build an MSI package.
+
+	--zip
+
+		Build a standalone ZIP package.
+
+	--all
+
+		Build all packages.
+
+	--clean
+
+		Clean the build and output locations.

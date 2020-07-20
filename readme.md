@@ -28,11 +28,18 @@ File / Directory                                            | Description
 [`Synergy-Core`](https://github.com/symless/synergy-core/)  | The official Synergy Core submodule.
 [`Tools`](./Tools)                                          | Temporary location for build tools.
 [`buildLinux.sh`](./buildLinux.sh)                          | Shell script for building binaries in Linux Mint or Ubuntu.
+[`buildWindows.cmd`](./buildWindows.cmd)                    | Command script for building binaries in Windows.
 
-<!--
-[`buildMacOS.sh`](./buildMacOS.sh)                          | Shell script for building binaries in macOS.
-[`buildWindows.ps1`](./buildWindows.ps1)                    | PowerShell script for building binaries in Windows.
- -->
+<!-- [`buildMacOS.sh`](./buildMacOS.sh)                          | Shell script for building binaries in macOS. -->
+
+
+## Official Documentation
+
+If you choose to build Synergy manually, consult the following official documentation:
+
+* [Compiling](https://github.com/symless/synergy-core/wiki/Compiling)
+* [Compiling Synergy Core](https://github.com/symless/synergy-core/wiki/Compiling-Synergy-Core)
+* [Building the Windows MSI Package](https://github.com/symless/synergy-core/wiki/Building-the-Windows-MSI-Package)
 
 ## Cloning the Repository
 
@@ -66,31 +73,27 @@ For building Debian packages:
 
 	sudo apt-get install build-essential devscripts dh-make lintian
 
-Alternatively, consult the [official wiki](https://github.com/symless/synergy-core/wiki/Compiling) for installing dependencies.
-
 ### Building
+
+**Easy Mode:**
 
 Run the shell script `buildLinux.sh --all` to build all packages. For other options, run with the `--help` switch.
 
+**Hard Mode:**
+
 Alternatively, you can opt to build the binaries only, as detailed below. We're assuming the current path is in the `Synergy-Binaries` project root.
 
-1. Create a `build` subdirectory in the `Synergy-Core` submodule:
+	cd Synergy-Core
+	mkdir build
+	cd build
 
-		cd Synergy-Core
-		mkdir build
-		cd build
+	cmake .. -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON
 
-2. Configure the project:
+	cmake --build . --parallel 8
 
-		cmake .. -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON
+Optional, install the application:
 
-3. Build the project:
-
-		cmake --build . --parallel 8
-
-4. Optional, install the application:
-
-		sudo cmake --install .
+	sudo cmake --install .
 
 ### Launching Automatically
 
@@ -123,14 +126,35 @@ _Incomplete._
 	* [Qt 5](https://www.qt.io/download), select the following components:
 		* Qt 5.12.9, MSVC 2017 64-bit
 
-2.
+2. Edit the `buildWindows.cmd` script and make sure the following script variables are configured properly:
+
+	* `libQtPath` - Path to the Qt library, Visual C++, 64-bit build.
+
+	* `vcvarsallCommand` - Path to Visual Studio's `vcvarsall.bat` command script, which sets compiler environment variables. See [Microsoft C++ toolset](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019) documentation for details.
+
+	* `cmakeGenerator` - Specifies the "generator" setting for cmake. Run `cmake --help` to choose the suitable generator for your current tool chain.
 
 ### Building
 
+**Easy Mode:**
+
 Run the command script `buildWindows.cmd --all` to build all packages. For other options, run with the `--help` switch.
+
+**Hard Mode:**
 
 Alternatively, you can opt to build the binaries only, as detailed below. We're assuming the current path is in the `Synergy-Binaries` project root.
 
+	cd Synergy-Core
+	mkdir build
+	cd build
+
+	call "c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+
+	cmake .. -G "Visual Studio 16 2019" -D CMAKE_PREFIX_PATH="c:\Qt\Qt5.12.9\5.12.9\msvc2017_64" -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON
+
+	msbuild synergy-core.sln /p:Platform="x64" /p:Configuration=Release /m
+
+You may need to use different paths to `vcvarsall.bat` and Qt libraries, whatever is appropriate for your system. Consequently, the generator `-G` switch for `cmake` must also reflect the tool chain environment. See `cmake --help` for details.
 
 ## Disclaimers and Legal
 

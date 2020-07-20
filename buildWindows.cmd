@@ -1,14 +1,18 @@
 @echo off
 
+rem Path to the Qt library, Visual C++, 64-bit build.
 set libQtPath=c:\Qt\Qt5.12.9\5.12.9\msvc2017_64
+
+rem Visual Studio environment variables, see: https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019
+set vcvarsallCommand=c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
+
+rem Run 'cmake --help' to choose the suitable generator for your current tool chain.
+set cmakeGenerator=Visual Studio 16 2019
 
 if not exist "%libQtPath%" (
 	echo error: Unable to resolve Qt library. Make sure the 'libQtPath' variable is correct.
 	exit 1
 )
-
-rem https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019
-set vcvarsallCommand=c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
 
 if not exist "%vcvarsallCommand%" (
 	echo error: Unable to resolve vcvarsall command file. Make sure the 'vcvarsallCommand' variable is correct.
@@ -94,7 +98,7 @@ exit 0
 
 :configureCMake
 
-	cmake -S "%synergyCorePath%" -B "%buildPath%" -G "Visual Studio 16 2019" -D CMAKE_PREFIX_PATH="%libQtPath%" -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON
+	cmake -S "%synergyCorePath%" -B "%buildPath%" -G "%cmakeGenerator%" -D CMAKE_PREFIX_PATH="%libQtPath%" -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON
 	if %errorlevel% equ 1 exit 1
 	exit /b 0
 
@@ -102,8 +106,7 @@ exit 0
 
 	call "%buildPath%\version.bat"
 	set synergyVersion=%SYNERGY_VERSION_MAJOR%.%SYNERGY_VERSION_MINOR%.%SYNERGY_VERSION_PATCH%
-	set synergyVersionStage=%SYNERGY_VERSION_STAGE%
-	set synergyReleaseName=synergy-%synergyVersion%-%synergyVersionStage%-windows-x64
+	set synergyReleaseName=synergy-%synergyVersion%-windows-x64
 	exit /b 0
 
 :configure

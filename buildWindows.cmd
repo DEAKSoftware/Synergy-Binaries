@@ -45,12 +45,10 @@ set toolsPath=%toplevelPath%\Tools
 if [%1] equ [--help] (
 
 	type "%toplevelPath%\Documentation\buildWindows.txt"
-	exit 0
 
 ) else if [%1] equ [-h] (
 
 	type "%toplevelPath%\Documentation\buildWindows.txt"
-	exit 0
 
 ) else if [%1] equ [--msbuild] (
 

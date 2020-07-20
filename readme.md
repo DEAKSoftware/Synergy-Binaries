@@ -1,13 +1,12 @@
 # Synergy Binaries
 
+## About
+
 [Synergy](https://github.com/symless/synergy-core) is a keyboard and mouse sharing tool for devices connected over a network. Up until version 1.8.8, binaries were freely available to download from the official project website. Since then, Synergy maintainers have decided to publish binaries behind a pay wall. However, Synergy is an open source project, and therefore anyone can build the application on their system.
 
-This repository provides some convenience tools and documentation for building Synergy. Alternatively, one can also [download](https://github.com/DEAKSoftware/Synergy-Binaries/releases) the pre-compiled binaries.
+This repository provides some convenience tools and documentation for building Synergy. Alternatively, one can also download the pre-compiled binaries, see below.
 
-Information presented here is based on the [official wiki pages](https://github.com/symless/synergy-core/wiki/Compiling). Anyone attempting to build Synergy should consult the official wiki pages first.
-
-
-## Download Binaries
+## Download
 
 The following binaries available in the [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) section:
 
@@ -18,30 +17,9 @@ The following binaries available in the [Releases](https://github.com/DEAKSoftwa
 If you can't locate a binary package for your particular distribution, try building the project yourself.
 
 
-## Project Structure
-
-The following files or directories should be of interest:
-
-File / Directory                                            | Description
----                                                         | ---
-[`Binaries`](./Binaries)                                    | Output location for the build binaries.
-[`Synergy-Core`](https://github.com/symless/synergy-core/)  | The official Synergy Core submodule.
-[`Tools`](./Tools)                                          | Temporary location for build tools.
-[`buildLinux.sh`](./buildLinux.sh)                          | Shell script for building binaries in Linux Mint or Ubuntu.
-[`buildWindows.cmd`](./buildWindows.cmd)                    | Command script for building binaries in Windows.
-
-<!-- [`buildMacOS.sh`](./buildMacOS.sh)                          | Shell script for building binaries in macOS. -->
-
-
-## Official Documentation
-
-If you choose to build Synergy manually, consult the following official documentation:
-
-* [Compiling](https://github.com/symless/synergy-core/wiki/Compiling)
-* [Compiling Synergy Core](https://github.com/symless/synergy-core/wiki/Compiling-Synergy-Core)
-* [Building the Windows MSI Package](https://github.com/symless/synergy-core/wiki/Building-the-Windows-MSI-Package)
-
 ## Cloning the Repository
+
+### Preparation
 
 Before you begin building Synergy, you need to recursively clone this project and its submodules:
 
@@ -54,10 +32,36 @@ Before you begin building Synergy, you need to recursively clone this project an
 		cd Synergy-Binaries
 		git submodule update --init --remote --recursive
 
+### Project Structure
 
-## Linux Mint / Ubuntu
+The following files or directories should be of interest:
 
-### Prerequisites
+File / Directory                                            | Description
+---                                                         | ---
+[`Binaries`](./Binaries)                                    | Output location for the build binaries.
+[`Documentation`](./Documentation)                          | Documentation for various scripts.
+[`Synergy-Core`](https://github.com/symless/synergy-core/)  | The official Synergy Core submodule.
+[`Tools`](./Tools)                                          | Temporary location for build tools.
+[`buildLinux.sh`](./buildLinux.sh)                          | Shell script for building binaries in Linux Mint or Ubuntu.
+[`buildWindows.cmd`](./buildWindows.cmd)                    | Command script for building binaries in Windows.
+
+<!-- [`buildMacOS.sh`](./buildMacOS.sh)                          | Shell script for building binaries in macOS. -->
+
+
+## Building
+
+### Official Documentation
+
+The information presented here is based on the [official wiki pages](https://github.com/symless/synergy-core/wiki). Anyone attempting to build Synergy should consult the official wiki pages first, particularly the following documentation:
+
+* [Compiling](https://github.com/symless/synergy-core/wiki/Compiling)
+* [Compiling Synergy Core](https://github.com/symless/synergy-core/wiki/Compiling-Synergy-Core)
+* [Building the Windows MSI Package](https://github.com/symless/synergy-core/wiki/Building-the-Windows-MSI-Package)
+
+
+### Linux Mint / Ubuntu
+
+#### Prerequisites
 
 Install the following tools and dependencies:
 
@@ -73,7 +77,7 @@ For building Debian packages:
 
 	sudo apt-get install build-essential devscripts dh-make lintian
 
-### Building
+#### Compiling
 
 **Easy Mode:**
 
@@ -95,7 +99,7 @@ Optional, install the application:
 
 	sudo cmake --install .
 
-### Launching Automatically
+#### Launching Automatically
 
 In Linux Mint we can launch `synergy` client automatically via _System Settings &rarr; Startup Applications_, then add an entry with the command:
 
@@ -103,15 +107,15 @@ In Linux Mint we can launch `synergy` client automatically via _System Settings 
 
 Substitute the `ClientName` with the local machine name, and the Synergy server IP `#.#.#.#` with whatever appropriate for your set-up.
 
-<!--
-## macOS
+
+### macOS
 
 _Incomplete._
--->
 
-## Windows
 
-### Prerequisites
+### Windows
+
+#### Prerequisites
 
 1. Install the following tools and dependencies:
 
@@ -130,11 +134,11 @@ _Incomplete._
 
 	* `libQtPath` - Path to the Qt library, Visual C++, 64-bit build.
 
-	* `vcvarsallCommand` - Path to Visual Studio's `vcvarsall.bat` command script, which sets compiler environment variables. See [Microsoft C++ toolset](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019) documentation for details.
+	* `vcvarsallCommand` - Path to Visual Studio's `vcvarsall.bat` command script, which sets compiler environment variables. See [Microsoft C++ toolset documentation](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019) for details.
 
 	* `cmakeGenerator` - Specifies the "generator" setting for cmake. Run `cmake --help` to choose the suitable generator for your current tool chain.
 
-### Building
+#### Compiling
 
 **Easy Mode:**
 

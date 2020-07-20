@@ -2,3 +2,10 @@ Binaries/*
 !Binaries/.keep
 Tools/*
 !Tools/.keep
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store

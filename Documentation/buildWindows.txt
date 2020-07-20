@@ -1,6 +1,6 @@
 NAME
 
-	buildWindows.cmd - Build Linux Binaries for Synergy
+	buildWindows.cmd - Build Windows Binaries for Synergy
 
 SYNOPSIS
 

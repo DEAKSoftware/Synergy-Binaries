@@ -7,7 +7,10 @@
    * [Homebrew](http://brew.sh/)
    * [XCode](https://developer.apple.com/xcode/download/)
    * [Qt 5](https://www.qt.io/download), select the following components:
-      * Qt 5.12.9, MSVC 2017 64-bit
+      * Qt 5.12.9 / macOS
+
+<!-- /Users/dom/Qt5.12.9/5.12.9/clang_64 -->
+
 
 2. Use Homebrew to install additional tools and libraries:
 

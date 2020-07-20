@@ -13,7 +13,7 @@
       * WiX Toolset Build Tools
       * WiX Toolset Visual Studio 2019 Extension
    * [Qt 5](https://www.qt.io/download), select the following components:
-      * Qt 5.12.9, MSVC 2017 64-bit
+      * Qt 5.12.9 / MSVC 2017 64-bit
 
 2. Edit the `buildWindows.cmd` script and make sure the following script variables are configured properly:
 

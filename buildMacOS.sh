@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Path to the Qt library, clang, 64-bit build.
+libQtPath="~/Qt5.12.9/5.12.9/clang_64"
+
 upstreamURL="https://github.com/DEAKSoftware/Synergy-Binaries.git"
 queriedURL="$( git config --get remote.origin.url )"
 toplevelPath="$( git rev-parse --show-toplevel )"
@@ -17,46 +20,65 @@ binariesPath="${toplevelPath}/Binaries"
 toolsPath="${toplevelPath}/Tools"
 
 
+
 configureSubmodules() {
 
 	git submodule update --init --remote --recursive
 
 }
 
+configureQt() {
+
+	export PATH="${libQtPath}:$PATH"
+
+}
+
 configureCMake() {
 
-	cmake -S "${synergyCorePath}" -B "${buildPath}" -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON || exit 1
+	cmake -S "${synergyCorePath}" -B "${buildPath}" \
+		-D CMAKE_OSX_DEPLOYMENT_TARGET=10.12 \
+		-D CMAKE_OSX_ARCHITECTURES=x86_64 \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CONFIGURATION_TYPES=Release \
+		-D SYNERGY_ENTERPRISE=ON || exit 1
 
 }
 
 configureVersion() {
 
-	source /etc/os-release || exit 1
-	linuxVersion="${ID}${VERSION_ID}"
-
 	source "${buildPath}/version"
 	synergyVersion="${SYNERGY_VERSION_MAJOR}.${SYNERGY_VERSION_MINOR}.${SYNERGY_VERSION_PATCH}"
-	synergyVersionStage="${SYNERGY_VERSION_STAGE}"
+	synergyReleaseName="synergy-${synergyVersion}-macos-x64"
 
 }
 
 configure() {
 
 	configureSubmodules
+	configureQt
 	configureCMake
 	configureVersion
 }
 
+buildApp() {
 
-buildCMake() {
+	pushd "${buildPath}" || exit 1
 
-	cmake --build "${buildPath}" --parallel 8 || exit 1
+		make -j || exit 1
+		make install/strip || exit 1
+
+		macdeployqt "${buildPath}/bundle/Synergy.app" 
+		ln -s /Applications "${buildPath}/bundle/Applications"
+
+	popd
 
 }
 
 buildDMG() {
 
-	echo .
+	mv "${buildPath}/bundle/Synergy.app" "${buildPath}/bundle/Synergy-test.app"
+
+	hdiutil create -volname "Synergy ${synergyVersion}" -srcfolder "${buildPath}/bundle" -ov -format UDZO "${binariesPath}/${synergyReleaseName}.dmg" || exit 1
 
 }
 
@@ -80,10 +102,10 @@ if [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
 
 	cat "${toplevelPath}/Documentation/HelpMacOS.txt"
 
-elif [ "${1}" = "--cmake" ]; then
+elif [ "${1}" = "--app" ]; then
 
 	configure
-	buildCMake
+	buildApp
 
 elif [ "${1}" = "--dmg" ]; then
 
@@ -93,7 +115,7 @@ elif [ "${1}" = "--dmg" ]; then
 elif [ "${1}" = "--all" ]; then
 
 	configure
-	buildCMake
+	buildApp
 	buildDMG
 
 elif [ "${1}" = "--clean" ]; then

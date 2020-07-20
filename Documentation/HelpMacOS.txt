@@ -11,8 +11,8 @@ DESCRIPTION
 	-h, --help
 		Display this help message.
 
-	--cmake
-		Build binaries only with CMake.
+	--app
+		Build the application bundle.
 
 	--dmg
 		Build a DMG disk image file.

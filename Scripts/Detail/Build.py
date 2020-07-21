@@ -53,7 +53,9 @@ class BuildSystem:
       utility.printHeading( "Configuring version information..." )
 
       if platform.system() == "Linux":
-         self.platformString = "-".join( distro.linux_distribution( full_distribution_name = False ) )
+         platformInfo = list( distro.linux_distribution( full_distribution_name = False ) );
+         platformInfo.append( platform.machine() )
+         self.platformString = "-".join( platformInfo )
       else:
          self.platformString = "-".join( [ platform.system(), platform.release(), platform.machine() ] )
 
@@ -217,12 +219,52 @@ class BuildSystem:
 
       os.unsetenv( "VERSION" )
 
-      for filePath in glob.glob( config.toolsPath() + "/*.AppImage" ):
-         shutil.copy2( filePath, config.binariesPath() )
+      for fileName in glob.glob( "/*.AppImage" ):
+         shutil.move( 
+            utility.joinPath( config.toolsPath(), fileName ), 
+            utility.joinPath( config.binariesPath(), fileName ) )
 
    def __linuxMakeDeb( self ):
 
       utility.printHeading( "Building Debian package..." )
+
+      def makeChangelog():
+
+         if not os.path.exists( "./debian/changelog" ):
+            
+            os.environ[ "SYNERGY_ENTERPRISE" ] = "1"
+            
+            utility.runCommand( 'dch '
+               '--create '
+               '--package "' + self.productBaseName.lower() + '" '
+               '--controlmaint ' 
+               '--distribution unstable ' 
+               '--newversion ' + self.productVersion.lower() + ' ' 
+               '"Snapshot release."' )
+
+      def buildDebianPackage():
+
+         os.environ[ "DEB_BUILD_OPTIONS" ] = "parallel=8"
+
+         utility.runCommand( "debuild --preserve-envvar SYNERGY_* -us -uc" )
+
+      def moveDebianPackage():
+
+         for fileName in glob.glob( "../" + self.productBaseName.lower() + "*.deb" ):
+            shutil.move( 
+               utility.joinPath( config.synergyCorePath(), fileName ), 
+               utility.joinPath( config.binariesPath(), self.productPackageName + ".deb" ) )
+
+         for fileName in glob.glob( "../" + self.productBaseName.lower() + "*" ):
+            shutil.move( 
+               utility.joinPath( config.synergyCorePath(), fileName ), 
+               config.synergyBuildPath() )
+
+      os.chdir( config.synergyCorePath() )
+
+      makeChangelog()
+      buildDebianPackage()
+      moveDebianPackage()
 
    def __linuxMakeRPM( self ):
 
@@ -239,8 +281,9 @@ class BuildSystem:
          self.__darwinMakeDMG()
       elif platform.system() == "Linux":
          self.__linuxMakeBinaries()
-         self.__linuxMakeAppImage()
+         # self.__linuxMakeAppImage()
          self.__linuxMakeDeb()
+         self.__linuxMakeRPM()
 
    def clean( self ):
 

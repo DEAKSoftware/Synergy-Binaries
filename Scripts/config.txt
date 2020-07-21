@@ -1,7 +1,6 @@
-[Common]
+[All]
 
    upstreamURL        = https://github.com/DEAKSoftware/Synergy-Binaries.git
-
    synergyCorePath    = ./Synergy-Core
    synergyBuildPath   = ./Synergy-Core/build
    synergyVersionPath = ./Synergy-Core/build/version

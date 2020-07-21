@@ -5,113 +5,100 @@ import os, platform, configparser
 import Detail.Utility as utility
 
 
-class Configuration:
-
-   upstreamURL = ""
-   toplevelPath = ""
-
-   synergyCorePath = ""
-   synergyBuildPath = ""
-   synergyVersionPath = ""
-   binariesPath = ""
-   toolsPath = ""
-
-   libQtPath = ""
-   vcvarsallPath = ""
-   cmakeGenerator = ""
+class Configuration( configparser.ConfigParser ):
 
    # Constructor
+
    def __init__( self, configPath ):
 
-      # parser = configparser.ConfigParser
+      defaults = {
+         "upstreamURL"        : "",
+         "toplevelPath"       : "",
+         "synergyCorePath"    : "",
+         "synergyBuildPath"   : "",
+         "synergyVersionPath" : "",
+         "binariesPath"       : "",
+         "toolsPath"          : "",
+         "libQtPath"          : "",
+         "vcvarsallPath"      : "",
+         "cmakeGenerator"     : "",
+         }
 
-      super().__init__( dict_type = dict, allow_no_value = True )
+      super().__init__( dict_type = dict, allow_no_value = True, default_section = "All", defaults = defaults )
 
       self.read( configPath )
 
-      self.__validateToplevelPath()
-      self.__validateConfigPaths()
+      def validateToplevelPath( config ):
 
-   # Validation
-   def __validateToplevelPath( self ):
+         utility.printHeading( "Git configuration..." )
 
-      utility.printHeading( "Git configuration..." )
+         section = platform.system();
 
-      upstreamURL  = self.get( "Common", "upstreamURL" )
-      queriedURL   = utility.captureCommandOutput( "git config --get remote.origin.url" )
-      toplevelPath = utility.captureCommandOutput( "git rev-parse --show-toplevel" )
+         upstreamURL  = config[ section ][ "upstreamURL" ]
+         queriedURL   = utility.captureCommandOutput( "git config --get remote.origin.url" )
+         toplevelPath = utility.captureCommandOutput( "git rev-parse --show-toplevel" )
 
-      utility.printItem( "toplevelPath: ", toplevelPath )
-      utility.printItem( "upstreamURL: ", upstreamURL )
-      utility.printItem( "queriedURL: ", queriedURL )
+         utility.printItem( "toplevelPath: ", toplevelPath )
+         utility.printItem( "upstreamURL: ", upstreamURL )
+         utility.printItem( "queriedURL: ", queriedURL )
 
-      if not os.path.exists( toplevelPath ):
-         utility.printError( "Git top level path does not exist: " + toplevelPath )
-         raise SystemExit( 1 )
-
-      if queriedURL != upstreamURL:
-         utility.printError( "The upstream URL at the current working directory does not match project upstream URL: " + queriedURL )
-         raise SystemExit( 1 )
-
-      self.set( "Common", "toplevelPath", toplevelPath )
-
-   def __validateConfigPath( self, sectionName, pathName, mustExist = True, isInternal = True ):
-
-      path = self.get( sectionName, pathName, fallback = None )
-
-      if path == None:
-         utility.printError( "Configuration [" + sectionName + "][" + pathName + "] was not defined." )
-         raise SystemExit( 1 )
-
-      if isInternal:
-         toplevelPath = self.get( "Common", "toplevelPath" )
-         path = utility.joinPath( toplevelPath, path )
-         prefixPath = os.path.commonprefix( [ toplevelPath, path ] )
-
-         if not os.path.samefile( toplevelPath, prefixPath ):
-            utility.printError( "Path was not resolved within top-level path scope: " + path )
+         if not os.path.exists( toplevelPath ):
+            utility.printError( "Git top level path does not exist:\n\t", toplevelPath )
             raise SystemExit( 1 )
 
-         self.set( sectionName, pathName, path )
-
-      utility.printItem( pathName + ": ", path )
-
-      if not os.path.exists( path ):
-         if mustExist:
-            utility.printError( "Required path does not exist: " + path )
+         if queriedURL != upstreamURL:
+            utility.printError( "The upstream URL at the current working directory does not match project upstream URL:\n\t", queriedURL )
             raise SystemExit( 1 )
-         else:
-            utility.printWarning( "Path does not exist: " + path )
 
-   def __validateConfigPaths( self ):
+         config[ section ][ "toplevelPath" ] = toplevelPath
 
-      utility.printHeading( "Path configuration..." )
+      def validateConfigPaths( config ):
 
-      self.__validateConfigPath( "Common", "synergyCorePath" )
-      self.__validateConfigPath( "Common", "synergyBuildPath", mustExist = False )
-      self.__validateConfigPath( "Common", "binariesPath" )
-      self.__validateConfigPath( "Common", "toolsPath" )
+         def resolvePath( config, name, mustExist = True ):
 
-      self.__validateConfigPath( platform.system(), "synergyVersionPath", mustExist = False )
+            section = platform.system();
+            path = config[ section ][ name ]
 
-      if platform.system() == "Windows":
-         self.__validateConfigPath( platform.system(), "libQtPath", isInternal = False )
-         self.__validateConfigPath( platform.system(), "vcvarsallPath", isInternal = False )
-      elif platform.system() == "Darwin":
-         self.__validateConfigPath( platform.system(), "libQtPath", isInternal = False )
+            if path != "":
+
+               path = utility.joinPath( config[ section ][ "toplevelPath" ], path )
+               utility.printItem( name + ": ", path )
+
+               if not os.path.exists( path ):
+                  if mustExist:
+                     utility.printError( "Required path does not exist:\n\t", path )
+                     raise SystemExit( 1 )
+                  else:
+                     utility.printWarning( "Path does not exist:\n\t", path )
+
+               config[ section ][ name ] = path
+
+         utility.printHeading( "Path configuration..." )
+
+         resolvePath( config, "synergyCorePath" )
+         resolvePath( config, "synergyBuildPath", mustExist = False )
+         resolvePath( config, "synergyVersionPath", mustExist = False )
+         resolvePath( config, "binariesPath" )
+         resolvePath( config, "toolsPath" )
+         resolvePath( config, "libQtPath" )
+         resolvePath( config, "vcvarsallPath" )
+
+      validateToplevelPath( self )
+      validateConfigPaths( self )
 
    # Convenience accessors
+
    def toplevelPath( self ):
 
-      return self.get( "Common", "toplevelPath" )
+      return self.get(  platform.system(), "toplevelPath" )
 
    def synergyCorePath( self ):
 
-      return self.get( "Common", "synergyCorePath" )
+      return self.get(  platform.system(), "synergyCorePath" )
 
    def synergyBuildPath( self ):
 
-      return self.get( "Common", "synergyBuildPath" )
+      return self.get(  platform.system(), "synergyBuildPath" )
 
    def synergyVersionPath( self ):
 
@@ -119,23 +106,23 @@ class Configuration:
 
    def binariesPath( self ):
 
-      return self.get( "Common", "binariesPath" )
+      return self.get(  platform.system(), "binariesPath" )
 
    def toolsPath( self ):
 
-      return self.get( "Common", "toolsPath" )
+      return self.get(  platform.system(), "toolsPath" )
 
    def libQtPath( self ):
 
-      return self.get( platform.system(), "libQtPath", fallback = "" )
+      return self.get( platform.system(), "libQtPath" )
 
    def vcvarsallPath( self ):
 
-      return self.get( platform.system(), "vcvarsallPath", fallback = "" )
+      return self.get( platform.system(), "vcvarsallPath" )
 
    def cmakeGenerator( self ):
 
-      return self.get( platform.system(), "cmakeGenerator", fallback = "" )
+      return self.get( platform.system(), "cmakeGenerator" )
 
 scriptPath = utility.joinPath( utility.basePathAtSource( __file__ ), ".." )
 configPath = utility.joinPath( scriptPath, "config.txt" )

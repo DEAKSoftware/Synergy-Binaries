@@ -5,9 +5,7 @@ import os, subprocess, colorama
 
 colorama.init()
 
-# -----------------------------------------------------------------------------
 # Text styling and printing utilities.
-# -----------------------------------------------------------------------------
 class style:
    heading   = '\033[95m'
    info      = '\033[96m'
@@ -50,9 +48,7 @@ def printItem( key, *args, **kwargs ):
 
    print( style.bold + key + style.none + " ".join( map( str, args ) ), **kwargs )
 
-# -----------------------------------------------------------------------------
 # Command utilities.
-# -----------------------------------------------------------------------------
 def runCommand( command ):
 
    printInfo( command )
@@ -72,9 +68,7 @@ def captureCommandOutput( command ):
       printError( "Command exited with error." )
       raise SystemExit( 1 )
 
-# -----------------------------------------------------------------------------
 # Path utilities.
-# -----------------------------------------------------------------------------
 def basePathAtSource( sourceFile ):
 
    return os.path.dirname( os.path.realpath( sourceFile ) )
@@ -83,9 +77,8 @@ def joinPath( component1, component2, *components ):
 
    return os.path.normpath( os.path.join( component1, component2, *components ) )
 
-# -----------------------------------------------------------------------------
 # String utilities.
-# -----------------------------------------------------------------------------
 def splitDelimitedString( string ):
 
    return filter( None, set( [ s.strip() for s in string.split( ',' ) ] ) )
+

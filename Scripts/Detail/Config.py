@@ -22,6 +22,7 @@ class Configuration( configparser.ConfigParser ):
          "libQtPath"          : "",
          "vcvarsallPath"      : "",
          "cmakeGenerator"     : "",
+         "linuxdeployURL"     : "",
          }
 
       super().__init__( dict_type = dict, allow_no_value = True, default_section = "All", defaults = defaults )
@@ -119,6 +120,10 @@ class Configuration( configparser.ConfigParser ):
    def cmakeGenerator( self ):
 
       return self.get( platform.system(), "cmakeGenerator" )
+
+   def linuxdeployURL( self ):
+
+      return self.get( platform.system(), "linuxdeployURL" )
 
 scriptPath = utility.joinPath( utility.basePathAtSource( __file__ ), ".." )
 configPath = utility.joinPath( scriptPath, "config.txt" )

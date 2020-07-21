@@ -16,6 +16,8 @@
 
 [Darwin]
 
-   libQtPath          = ~/Qt5.12.9/5.12.9/clang_64
+   libQtPath = ~/Qt5.12.9/5.12.9/clang_64
 
 [Linux]
+
+   linuxdeployURL = https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage

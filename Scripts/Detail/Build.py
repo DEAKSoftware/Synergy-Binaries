@@ -1,6 +1,6 @@
 #!/bin/echo "This module must be imported by other Python scripts."
 
-import os, platform, re, shutil, glob
+import os, platform, re, shutil, glob, distro
 
 from Detail.Config import config
 import Detail.Utility as utility
@@ -18,10 +18,9 @@ class BuildSystem:
 
       utility.printHeading( "Updating Git submodules..." )
 
-      utility.runCommand(
-         'pushd "' + config.toplevelPath() + '" && '
-         "git submodule update --init --remote --recursive && "
-         "popd" )
+      os.chdir( config.toplevelPath() )
+
+      utility.runCommand( "git submodule update --init --remote --recursive" )
 
    def __configureCMake( self ):
 
@@ -53,13 +52,16 @@ class BuildSystem:
 
       utility.printHeading( "Configuring version information..." )
 
-      self.platformString = "-".join( [ platform.system(), platform.release(), platform.machine() ] )
+      if platform.system() == "Linux":
+         self.platformString = "-".join( distro.linux_distribution( full_distribution_name = False ) )
+      else:
+         self.platformString = "-".join( [ platform.system(), platform.release(), platform.machine() ] )
 
       versionFile = open( config.synergyVersionPath(), "r" )
       versionData = versionFile.read();
       versionFile.close()
 
-      matches = re.findall( r"(?: +SET +)?SYNERGY_VERSION_\w+ *= *(\w+)", versionData )
+      matches = re.findall( r" *(?:SET|export) +SYNERGY_VERSION_\w+ *= *\"?(\w+)\"?", versionData )
 
       if len( matches ) != 4:
          printError( "Failed to extract version information." )
@@ -77,8 +79,8 @@ class BuildSystem:
 
    def configure( self ):
 
-      self.__configureSubmodules()
-      self.__configureCMake()
+      # self.__configureSubmodules()
+      # self.__configureCMake()
       self.__configureVersion()
 
    # Windows builds
@@ -86,11 +88,11 @@ class BuildSystem:
 
       utility.printHeading( "Building binaries..." )
 
+      os.chdir( config.synergyBuildPath() )
+
       utility.runCommand(
-         'pushd "' + config.synergyBuildPath() + '" && '
          'call "' + config.vcvarsallPath() + '" x64 && '
-         'msbuild synergy-core.sln /p:Platform="x64" /p:Configuration=Release /m && '
-         "popd" )
+         'msbuild synergy-core.sln /p:Platform="x64" /p:Configuration=Release /m ')
 
    def __windowsMakeMSI( self ):
 
@@ -98,11 +100,11 @@ class BuildSystem:
 
       installerPath = utility.joinPath( config.synergyBuildPath(), "installer" )
 
+      os.chdir( installerPath )
+
       utility.runCommand(
-         'pushd "' + installerPath + '" && '
          'call "' + config.vcvarsallPath() + '" x64 && '
-         'msbuild Synergy.sln /p:Configuration=Release && '
-         "popd" )
+         "msbuild Synergy.sln /p:Configuration=Release " )
 
       sourcePath = utility.joinPath( installerPath, "bin/Release/Synergy.msi" )
       targetPath = utility.joinPath( config.binariesPath(), self.productPackageName + ".msi" )
@@ -187,13 +189,44 @@ class BuildSystem:
 
       utility.printHeading( "Building binaries..." )
 
+      utility.runCommand( 'cmake --build "' + config.synergyBuildPath() + '" --parallel' )
+
    def __linuxMakeAppImage( self ):
 
       utility.printHeading( "Building AppImage package..." )
 
+      os.chdir( config.toolsPath() )
+
+      utility.runCommand( "wget -O linuxdeploy -c " + config.linuxdeployURL() + " && chmod a+x linuxdeploy" )
+
+      appImagePath = utility.joinPath( config.synergyBuildPath(), self.productPackageName + ".AppDir" )
+
+      # Needed by linuxdeploy
+      os.environ[ "VERSION" ] = "-".join( [ self.productVersion, self.productStage, self.platformString ] ).lower()
+
+      utility.runCommand( "./linuxdeploy "
+         '--appdir "' + appImagePath + '" '
+         '--executable "' + utility.joinPath( config.synergyBuildPath(), "bin/synergy" ) + '" '
+         '--executable "' + utility.joinPath( config.synergyBuildPath(), "bin/synergyc" ) + '" '
+         '--executable "' + utility.joinPath( config.synergyBuildPath(), "bin/synergyd" ) + '" '
+         '--executable "' + utility.joinPath( config.synergyBuildPath(), "bin/synergys" ) + '" '
+         '--executable "' + utility.joinPath( config.synergyBuildPath(), "bin/syntool" ) + '" '
+         '--create-desktop-file '
+         '--icon-file "' + utility.joinPath( config.synergyCorePath(), "res/synergy.svg" ) + '" '
+         '--output appimage' )
+
+      os.unsetenv( "VERSION" )
+
+      for filePath in glob.glob( config.toolsPath() + "/*.AppImage" ):
+         shutil.copy2( filePath, config.binariesPath() )
+
    def __linuxMakeDeb( self ):
 
       utility.printHeading( "Building Debian package..." )
+
+   def __linuxMakeRPM( self ):
+
+      utility.printHeading( "Building RPM package..." )
 
    def make( self ):
 
@@ -213,12 +246,10 @@ class BuildSystem:
 
       utility.printHeading( "Cleaning project..." )
 
-      utility.runCommand(
-         'pushd "' + config.synergyCorePath() + '" && '
-         'git clean -fdx && '
-         "popd" )
+      os.chdir( config.synergyCorePath() )
 
-      utility.runCommand(
-         'pushd "' + config.toplevelPath() + '" && '
-         'git clean -fdx && '
-         "popd" )
+      utility.runCommand( "git clean -fdx" )
+
+      os.chdir( config.toplevelPath() )
+
+      utility.runCommand( "git clean -fdx" )

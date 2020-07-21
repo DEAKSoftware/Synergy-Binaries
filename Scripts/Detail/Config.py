@@ -23,8 +23,8 @@ class Configuration( configparser.ConfigParser ):
       utility.printHeading( "Git configuration..." )
 
       upstreamURL  = self.get( "Common", "upstreamURL" )
-      queriedURL   = utility.runCommandAndPipeStdout( "git config --get remote.origin.url" )
-      toplevelPath = utility.runCommandAndPipeStdout( "git rev-parse --show-toplevel" )
+      queriedURL   = utility.captureCommandOutput( "git config --get remote.origin.url" )
+      toplevelPath = utility.captureCommandOutput( "git rev-parse --show-toplevel" )
 
       utility.printItem( "toplevelPath: ", toplevelPath )
       utility.printItem( "upstreamURL: ", upstreamURL )
@@ -45,7 +45,7 @@ class Configuration( configparser.ConfigParser ):
       path = self.get( sectionName, pathName, fallback = None )
 
       if path == None:
-         utility.printError( "Configuration '" + section + "." + name + "' was not defined." )
+         utility.printError( "Configuration [" + sectionName + "][" + pathName + "] was not defined." )
          raise SystemExit( 1 )
 
       if isInternal:
@@ -77,11 +77,13 @@ class Configuration( configparser.ConfigParser ):
       self.__validateConfigPath( "Common", "binariesPath" )
       self.__validateConfigPath( "Common", "toolsPath" )
 
+      self.__validateConfigPath( platform.system(), "synergyVersionPath", mustExist = False )
+
       if platform.system() == "Windows":
-         self.__validateConfigPath( "Windows", "libQtPath", isInternal = False )
-         self.__validateConfigPath( "Windows", "vcvarsallPath", isInternal = False )
+         self.__validateConfigPath( platform.system(), "libQtPath", isInternal = False )
+         self.__validateConfigPath( platform.system(), "vcvarsallPath", isInternal = False )
       elif platform.system() == "Darwin":
-         self.__validateConfigPath( "Darwin", "libQtPath", isInternal = False )
+         self.__validateConfigPath( platform.system(), "libQtPath", isInternal = False )
 
    # Convenience accessors
    def toplevelPath( self ):
@@ -96,6 +98,10 @@ class Configuration( configparser.ConfigParser ):
 
       return self.get( "Common", "synergyBuildPath" )
 
+   def synergyVersionPath( self ):
+
+      return self.get( platform.system(), "synergyVersionPath" )
+
    def binariesPath( self ):
 
       return self.get( "Common", "binariesPath" )
@@ -106,15 +112,15 @@ class Configuration( configparser.ConfigParser ):
 
    def libQtPath( self ):
 
-      return self.get( platform.system(), "libQtPath" )
+      return self.get( platform.system(), "libQtPath", fallback = "" )
 
    def vcvarsallPath( self ):
 
-      return self.get( platform.system(), "vcvarsallPath" )
+      return self.get( platform.system(), "vcvarsallPath", fallback = "" )
 
    def cmakeGenerator( self ):
 
-      return self.get( platform.system(), "cmakeGenerator" )
+      return self.get( platform.system(), "cmakeGenerator", fallback = "" )
 
 scriptPath = utility.joinPath( utility.basePathAtSource( __file__ ), ".." )
 configPath = utility.joinPath( scriptPath, "config.txt" )

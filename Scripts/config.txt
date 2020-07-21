@@ -1,19 +1,22 @@
 [Common]
 
-   upstreamURL      = https://github.com/DEAKSoftware/Synergy-Binaries.git
-   synergyCorePath  = ./Synergy-Core
-   synergyBuildPath = ./Synergy-Core/build
-   binariesPath     = ./Binaries
-   toolsPath        = ./Tools
+   upstreamURL        = https://github.com/DEAKSoftware/Synergy-Binaries.git
+
+   synergyCorePath    = ./Synergy-Core
+   synergyBuildPath   = ./Synergy-Core/build
+   synergyVersionPath = ./Synergy-Core/build/version
+   binariesPath       = ./Binaries
+   toolsPath          = ./Tools
 
 [Windows]
 
-   libQtPath      = C:\Qt\Qt5.12.9\5.12.9\msvc2017_64
-   vcvarsallPath  = C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
-   cmakeGenerator = Visual Studio 16 2019
+   synergyVersionPath = .\Synergy-Core\build\version.bat
+   libQtPath          = C:\Qt\Qt5.12.9\5.12.9\msvc2017_64
+   vcvarsallPath      = C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
+   cmakeGenerator     = Visual Studio 16 2019
 
 [Darwin]
 
-   libQtPath = ~/Qt5.12.9/5.12.9/clang_64
+   libQtPath          = ~/Qt5.12.9/5.12.9/clang_64
 
 [Linux]

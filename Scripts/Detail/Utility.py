@@ -48,32 +48,29 @@ def printUnderline( *args, **kwargs ):
 
 def printItem( key, *args, **kwargs ):
 
-   print( style.bold + key  + style.none + " ".join( map( str, args ) ), **kwargs )
+   print( style.bold + key + style.none + " ".join( map( str, args ) ), **kwargs )
 
 # -----------------------------------------------------------------------------
 # Command utilities.
 # -----------------------------------------------------------------------------
 def runCommand( command ):
 
-   print( command )
+   printInfo( command )
 
-   completedProcess = subprocess.run( command.split() )
-
-   if completedProcess.returncode != 0:
-      printError( "Command exited with error: " + command )
+   if os.system( command ) != 0:
+      printError( "Command exited with error." )
       raise SystemExit( 1 )
 
-def runCommandAndPipeStdout( command ):
+def captureCommandOutput( command ):
 
-   completedProcess = subprocess.run( command.split(), stdout = subprocess.PIPE )
+   printInfo( command )
 
-   if completedProcess.returncode != 0:
-      printError( "Command exited with error: " + command )
+   try:
+      result = subprocess.check_output( command, shell = True )
+      return result.decode( "utf-8" ).rstrip()
+   except:
+      printError( "Command exited with error." )
       raise SystemExit( 1 )
-
-   stdoutString = completedProcess.stdout.decode( "utf-8" )
-
-   return stdoutString.rstrip()
 
 # -----------------------------------------------------------------------------
 # Path utilities.

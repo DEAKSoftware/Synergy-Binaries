@@ -2,9 +2,11 @@
 
 # import clean
 
-import Detail.Build# as build
+import Detail.Build
 
-b = Detail.Build.BuildSystem()
+# b = Detail.Build.BuildSystem()
 
-b.configure()
-b.make()
+# b.configure()
+# b.make()
+
+# b.clean()

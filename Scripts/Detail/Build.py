@@ -113,54 +113,65 @@ class BuildSystem:
 
       utility.printHeading( "Building standalone ZIP package..." )
 
-      # Copy Synergy binaries
-      fileList = [
-         "libEGL.dll",
-         "libGLESv2.dll",
-         "Qt5Core.dll",
-         "Qt5Gui.dll",
-         "Qt5Network.dll",
-         "Qt5Svg.dll",
-         "Qt5Widgets.dll",
-         "synergy.exe",
-         "synergyc.exe",
-         "synergyd.exe",
-         "synergys.exe",
-         "syntool.exe"
-         ]
+      def copySynergyBinaries( sourcePath, productPath ):
 
-      sourceBinPath = utility.joinPath( config.synergyBuildPath(), "bin/Release" )
-      targetBinPath = utility.joinPath( config.synergyBuildPath(), "bin", self.productPackageName )
+         fileList = [
+            "libEGL.dll",
+            "libGLESv2.dll",
+            "Qt5Core.dll",
+            "Qt5Gui.dll",
+            "Qt5Network.dll",
+            "Qt5Svg.dll",
+            "Qt5Widgets.dll",
+            "synergy.exe",
+            "synergyc.exe",
+            "synergyd.exe",
+            "synergys.exe",
+            "syntool.exe"
+            ]
 
-      if not os.path.exists( targetBinPath ):
-         os.mkdir( targetBinPath )
+         if not os.path.exists( productPath ):
+            os.mkdir( productPath )
 
-      for fileName in fileList:
-         filePath = utility.joinPath( sourceBinPath, fileName )
-         shutil.copy2( filePath, targetBinPath )
+         for fileName in fileList:
+            filePath = utility.joinPath( sourcePath, fileName )
+            shutil.copy2( filePath, productPath )
 
-      shutil.copytree( utility.joinPath( sourceBinPath, "Platforms" ), utility.joinPath( targetBinPath, "Platforms" ), dirs_exist_ok = True )
-      shutil.copytree( utility.joinPath( sourceBinPath, "Styles"    ), utility.joinPath( targetBinPath, "Styles"    ), dirs_exist_ok = True )
+         shutil.copytree( utility.joinPath( sourcePath, "Platforms" ), utility.joinPath( productPath, "Platforms" ), dirs_exist_ok = True )
+         shutil.copytree( utility.joinPath( sourcePath, "Styles"    ), utility.joinPath( productPath, "Styles"    ), dirs_exist_ok = True )
 
-      # Copy OpenSSL binaries
+      def copyOpenSSLBinaries( sourceOpenSSLPath, productPath ):
+
+         productOpenSSLPath = utility.joinPath( productPath, "OpenSSL" )
+
+         if not os.path.exists( productOpenSSLPath ):
+            os.mkdir( productOpenSSLPath )
+
+         for filePath in glob.glob( sourceOpenSSLPath + "/*" ):
+            shutil.copy2( filePath, productOpenSSLPath )
+
+         for filePath in glob.glob( sourceOpenSSLPath + "/*.dll" ):
+            shutil.copy2( filePath, productPath )
+
+      def makeZipArchive( productPath, zipPath ):
+
+         rootPath = utility.joinPath( productPath, ".." )
+         basePath = os.path.relpath( productPath, rootPath )
+
+         shutil.make_archive( zipPath, 'zip', rootPath, basePath )
+
+      sourcePath = utility.joinPath( config.synergyBuildPath(), "bin/Release" )
+      productPath = utility.joinPath( config.synergyBuildPath(), "bin", self.productPackageName )
+
+      copySynergyBinaries( sourcePath, productPath )
+
       sourceOpenSSLPath = utility.joinPath( config.synergyCorePath(), "ext/openssl/windows/x64/bin" )
-      targetOpenSSLPath = utility.joinPath( targetBinPath, "OpenSSL" )
 
-      if not os.path.exists( targetOpenSSLPath ):
-         os.mkdir( targetOpenSSLPath )
+      copyOpenSSLBinaries( sourceOpenSSLPath, productPath )
 
-      for filePath in glob.glob( sourceOpenSSLPath + "/*" ):
-         shutil.copy2( filePath, targetOpenSSLPath )
-
-      for filePath in glob.glob( sourceOpenSSLPath + "/*.dll" ):
-         shutil.copy2( filePath, targetBinPath )
-
-      # Make ZIP package
       zipPath = utility.joinPath( config.binariesPath(), self.productPackageName )
-      rootPath = utility.joinPath( targetBinPath, ".." )
-      basePath = os.path.relpath( targetBinPath, rootPath )
 
-      shutil.make_archive( zipPath, 'zip', rootPath, basePath )
+      makeZipArchive( productPath, zipPath )
 
    # Darwin builds
    def __darwinMakeApplication( self ):

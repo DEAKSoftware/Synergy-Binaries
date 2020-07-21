@@ -5,10 +5,25 @@ import os, platform, configparser
 import Detail.Utility as utility
 
 
-class Configuration( configparser.ConfigParser ):
+class Configuration:
+
+   upstreamURL = ""
+   toplevelPath = ""
+
+   synergyCorePath = ""
+   synergyBuildPath = ""
+   synergyVersionPath = ""
+   binariesPath = ""
+   toolsPath = ""
+
+   libQtPath = ""
+   vcvarsallPath = ""
+   cmakeGenerator = ""
 
    # Constructor
    def __init__( self, configPath ):
+
+      # parser = configparser.ConfigParser
 
       super().__init__( dict_type = dict, allow_no_value = True )
 

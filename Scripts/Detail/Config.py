@@ -54,26 +54,22 @@ class Configuration( configparser.ConfigParser ):
 
       def validateConfigPaths( config ):
 
+         utility.printHeading( "Path configuration..." )
+
          def resolvePath( config, name, mustExist = True ):
 
             section = platform.system();
             path = config[ section ][ name ]
 
             if path != "":
-
                path = utility.joinPath( config[ section ][ "toplevelPath" ], path )
                utility.printItem( name + ": ", path )
 
-               if not os.path.exists( path ):
-                  if mustExist:
-                     utility.printError( "Required path does not exist:\n\t", path )
-                     raise SystemExit( 1 )
-                  else:
-                     utility.printWarning( "Path does not exist:\n\t", path )
+               if not os.path.exists( path ) and mustExist:
+                  utility.printError( "Required path does not exist:\n\t", path )
+                  raise SystemExit( 1 )
 
                config[ section ][ name ] = path
-
-         utility.printHeading( "Path configuration..." )
 
          resolvePath( config, "synergyCorePath" )
          resolvePath( config, "synergyBuildPath", mustExist = False )

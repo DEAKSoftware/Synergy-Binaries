@@ -1,6 +1,6 @@
 #!/bin/echo "This module must be imported by other Python scripts."
 
-import os, platform, re, shutil, glob, distro
+import os, platform, re, shutil, glob, distro, tempfile
 
 from Detail.Config import config
 import Detail.Utility as utility
@@ -31,7 +31,8 @@ class BuildSystem:
          ' -B "' + config.synergyBuildPath() + '" '
          " -D CMAKE_BUILD_TYPE=Release "
          " -D CMAKE_CONFIGURATION_TYPES=Release "
-         " -D SYNERGY_ENTERPRISE=ON " )
+         " -D SYNERGY_ENTERPRISE=ON " 
+         )
 
       if platform.system() == "Darwin":
          command += " -D CMAKE_OSX_DEPLOYMENT_TARGET=10.12 "
@@ -81,8 +82,8 @@ class BuildSystem:
 
    def configure( self ):
 
-      # self.__configureSubmodules()
-      # self.__configureCMake()
+      self.__configureSubmodules()
+      self.__configureCMake()
       self.__configureVersion()
 
    # Windows builds
@@ -224,11 +225,11 @@ class BuildSystem:
             utility.joinPath( config.toolsPath(), fileName ), 
             utility.joinPath( config.binariesPath(), fileName ) )
 
-   def __linuxMakeDeb( self ):
+   def __linuxMakeDebian( self ):
 
       utility.printHeading( "Building Debian package..." )
 
-      def makeChangelog():
+      def makeChangeLog():
 
          if not os.path.exists( "./debian/changelog" ):
             
@@ -262,13 +263,71 @@ class BuildSystem:
 
       os.chdir( config.synergyCorePath() )
 
-      makeChangelog()
+      makeChangeLog()
       buildDebianPackage()
       moveDebianPackage()
+
+      os.unsetenv( "SYNERGY_ENTERPRISE" )
+      os.unsetenv( "DEB_BUILD_OPTIONS" )
 
    def __linuxMakeRPM( self ):
 
       utility.printHeading( "Building RPM package..." )
+
+      def makeSymlinkPath( temporaryPath ):
+
+         sourceSymlinkPath = utility.joinPath( config.synergyBuildPath(), "rpm" )
+         targetSymlinkPath = utility.joinPath( temporaryPath, "rpm" )
+
+         os.symlink( sourceSymlinkPath, targetSymlinkPath, target_is_directory = True )
+
+         return targetSymlinkPath
+
+      def installBinaries( installPath ):
+
+         utility.runCommand( "cmake"
+            ' -S "' + config.synergyCorePath() + '" '
+            ' -B "' + config.synergyBuildPath() + '" '
+            " -D CMAKE_BUILD_TYPE=Release "
+            " -D SYNERGY_ENTERPRISE=ON " 
+            ' -D CMAKE_INSTALL_PREFIX:PATH="' + installPath + '" ' )
+
+         os.chdir( config.synergyBuildPath() )
+
+         utility.runCommand( "make -j && make install/strip" )
+
+      def makeRpmPackage( rpmToplevelPath, rpmBuildrootPath ):
+
+         if " " in rpmToplevelPath:
+            printError( "RPM top-level path contained spaces:\n\t", rpmToplevelPath )
+            raise SystemExit( 1 )
+
+         os.chdir( rpmToplevelPath )
+
+         utility.runCommand( 'rpmbuild -bb '
+            '--define "_topdir ' + rpmToplevelPath + '" '
+            '--buildroot ' + rpmBuildrootPath + ' '
+            "synergy.spec" )
+
+      def moveRpmPackage( rpmToplevelPath ):
+
+         os.chdir( rpmToplevelPath )
+
+         for fileName in glob.glob( "RPMS/x86_64/*.rpm" ):
+            shutil.move( fileName, utility.joinPath( config.binariesPath(), self.productPackageName + ".rpm" ) )
+
+      # rpmbuild can't handle spaces in paths so we operate inside a temporary path 
+      with tempfile.TemporaryDirectory() as temporaryPath:
+         
+         utility.printInfo( "Created: ", temporaryPath )
+
+         rpmToplevelPath = makeSymlinkPath( temporaryPath )
+         rpmBuildrootPath = utility.joinPath( rpmToplevelPath, "BUILDROOT" )
+         installPath = utility.joinPath( rpmBuildrootPath, "usr" )
+
+         installBinaries( installPath )
+         makeRpmPackage( rpmToplevelPath, rpmBuildrootPath )
+         moveRpmPackage( rpmToplevelPath )
 
    def make( self ):
 
@@ -281,8 +340,8 @@ class BuildSystem:
          self.__darwinMakeDMG()
       elif platform.system() == "Linux":
          self.__linuxMakeBinaries()
-         # self.__linuxMakeAppImage()
-         self.__linuxMakeDeb()
+         self.__linuxMakeAppImage()
+         self.__linuxMakeDebian()
          self.__linuxMakeRPM()
 
    def clean( self ):

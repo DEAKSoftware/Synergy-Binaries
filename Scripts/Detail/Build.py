@@ -206,7 +206,7 @@ class BuildSystem:
       appImagePath = utility.joinPath( config.synergyBuildPath(), self.productPackageName + ".AppDir" )
 
       # Needed by linuxdeploy
-      os.environ[ "VERSION" ] = "-".join( [ self.productVersion, self.productStage, self.platformString ] ).lower()
+      os.environ[ "VERSION" ] = "-".join( [ self.productVersion, self.productStage ] ).lower()
 
       utility.runCommand( "./linuxdeploy "
          '--appdir "' + appImagePath + '" '
@@ -221,10 +221,10 @@ class BuildSystem:
 
       os.unsetenv( "VERSION" )
 
-      for fileName in glob.glob( "/*.AppImage" ):
+      for fileName in glob.glob( "*.AppImage" ):
          shutil.move(
             utility.joinPath( config.toolsPath(), fileName ),
-            utility.joinPath( config.binariesPath(), fileName ) )
+            utility.joinPath( config.binariesPath(), self.productPackageName + ".AppImage" ) )
 
    def __linuxMakeDebian( self ):
 

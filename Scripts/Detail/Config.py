@@ -63,7 +63,7 @@ class Configuration( configparser.ConfigParser ):
             path = config[ section ][ name ]
 
             if path != "":
-               path = utility.joinPath( config[ section ][ "toplevelPath" ], path )
+               path = utility.joinPath( config[ section ][ "toplevelPath" ], os.path.expanduser( path ) ) 
                utility.printItem( name + ": ", path )
 
                if not os.path.exists( path ) and mustExist:

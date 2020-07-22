@@ -341,8 +341,8 @@ class BuildSystem:
       elif platform.system() == "Linux":
          self.__linuxMakeBinaries()
          self.__linuxMakeAppImage()
-         self.__linuxMakeDebian()
-         self.__linuxMakeRPM()
+         # self.__linuxMakeDebian()
+         # self.__linuxMakeRPM()
 
    def clean( self ):
 

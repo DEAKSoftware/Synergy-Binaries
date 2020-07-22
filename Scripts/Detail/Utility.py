@@ -2,10 +2,10 @@
 
 import os, subprocess, colorama
 
-
 colorama.init()
 
 # Text styling and printing utilities.
+
 class style:
    heading   = '\033[95m'
    info      = '\033[96m'
@@ -49,6 +49,7 @@ def printItem( key, *args, **kwargs ):
    print( style.bold + key + style.none + " ".join( map( str, args ) ), **kwargs )
 
 # Command utilities.
+
 def runCommand( command ):
 
    printInfo( command )
@@ -69,6 +70,7 @@ def captureCommandOutput( command ):
       raise SystemExit( 1 )
 
 # Path utilities.
+
 def basePathAtSource( sourceFile ):
 
    return os.path.dirname( os.path.realpath( sourceFile ) )

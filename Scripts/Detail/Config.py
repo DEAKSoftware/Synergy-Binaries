@@ -4,7 +4,6 @@ import os, platform, configparser
 
 import Detail.Utility as utility
 
-
 class Configuration( configparser.ConfigParser ):
 
    # Constructor

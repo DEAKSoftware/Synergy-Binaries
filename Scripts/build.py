@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-import glob, os, platform, re, shutil, tempfile
+import glob, os, platform, re, shutil, sys, tempfile
+
+assert sys.version_info >= ( 3, 8 )
 
 from Detail.Config import config
 import Detail.Utility as utility
@@ -186,6 +188,16 @@ class Build:
    def __darwinMakeApplication( self ):
 
       utility.printHeading( "Building application bundle..." )
+
+      os.chdir( config.synergyBuildPath() )
+
+      # utility.runCommand( "make -j && make install/strip" )
+
+      appBundlePath = utility.joinPath( config.synergyBuildPath(), "bundle/Synergy.app" )
+
+      # utility.runCommand( 'macdeployqt "' + appBundlePath + '"' )
+
+      shutil.copytree( appBundlePath, utility.joinPath( config.binariesPath(), self.productBaseName + ".app" ), dirs_exist_ok = True )
 
    def __darwinMakeDMG( self ):
 

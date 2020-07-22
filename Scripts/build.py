@@ -58,26 +58,42 @@ class Build:
 
       utility.printHeading( "Configuring version information..." )
 
-      if platform.system() == "Linux":
-         import distro # TODO: Move 'import distro' to global scope when it supports cross platform
+      def makePlatformString():
+
+         if platform.system() == "Windows":
+            return "-".join( [ platform.system(), platform.release(), platform.machine() ] )
+
+         import distro # TODO: Move this to global scope when distro supports Windows
+
          platformInfo = list( distro.linux_distribution( full_distribution_name = False ) );
+
+         while "" in platformInfo:
+            platformInfo.remove( "" )
+
          platformInfo.append( platform.machine() )
-         self.platformString = "-".join( platformInfo )
-      else:
-         self.platformString = "-".join( [ platform.system(), platform.release(), platform.machine() ] )
 
-      versionFile = open( config.synergyVersionPath(), "r" )
-      versionData = versionFile.read();
-      versionFile.close()
+         return "-".join( platformInfo )
 
-      matches = re.findall( r" *(?:SET|export) +SYNERGY_VERSION_\w+ *= *\"?(\w+)\"?", versionData )
+      def makeProductVersion():
+   
+         versionFile = open( config.synergyVersionPath(), "r" )
+         versionData = versionFile.read();
+         versionFile.close()
 
-      if len( matches ) != 4:
-         printError( "Failed to extract version information." )
-         raise SystemExit( 1 )
+         versionParts = re.findall( r" *(?:SET|export) +SYNERGY_VERSION_\w+ *= *\"?(\w+)\"?", versionData )
 
-      self.productVersion = ".".join( [ matches[ 0 ], matches[ 1 ], matches[ 2 ] ] )
-      self.productStage = matches[ 3 ]
+         if len( versionParts ) != 4:
+            printError( "Failed to extract version information." )
+            raise SystemExit( 1 )
+
+         return versionParts
+
+      self.platformString = makePlatformString()
+
+      versionParts = makeProductVersion()
+
+      self.productVersion = ".".join( versionParts[ 0:3 ] )
+      self.productStage = versionParts[ 3 ]
 
       self.productPackageName = "-".join( [ self.productBaseName, self.productVersion, self.productStage, self.platformString ] ).lower()
 
@@ -202,6 +218,20 @@ class Build:
    def __darwinMakeDMG( self ):
 
       utility.printHeading( "Building DMG disk image file..." )
+
+      targetSymlinkPath = utility.joinPath( config.synergyBuildPath(), "bundle/Applications" )
+
+      if not os.path.exists( targetSymlinkPath ):
+         os.symlink( "/Applications", targetSymlinkPath, target_is_directory = True )
+
+      volumeLabel = self.productBaseName + ' ' + self.productVersion;
+      bundlePath = utility.joinPath( config.synergyBuildPath(), "bundle" )
+      packagePath = utility.joinPath( config.binariesPath(), self.productPackageName + ".dmg" )
+
+      utility.runCommand( "hdiutil create "
+         '-volname "' + volumeLabel + '" '
+         '-srcfolder "' + bundlePath + '" ' 
+         '-ov -format UDZO ' + packagePath )
 
    # Linux builds
    def __linuxMakeBinaries( self ):

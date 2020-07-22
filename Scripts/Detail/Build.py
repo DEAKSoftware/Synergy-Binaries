@@ -1,6 +1,6 @@
 #!/bin/echo "This module must be imported by other Python scripts."
 
-import os, platform, re, shutil, glob, distro, tempfile
+import os, platform, re, shutil, glob, tempfile
 
 from Detail.Config import config
 import Detail.Utility as utility
@@ -31,7 +31,7 @@ class BuildSystem:
          ' -B "' + config.synergyBuildPath() + '" '
          " -D CMAKE_BUILD_TYPE=Release "
          " -D CMAKE_CONFIGURATION_TYPES=Release "
-         " -D SYNERGY_ENTERPRISE=ON " 
+         " -D SYNERGY_ENTERPRISE=ON "
          )
 
       if platform.system() == "Darwin":
@@ -54,6 +54,7 @@ class BuildSystem:
       utility.printHeading( "Configuring version information..." )
 
       if platform.system() == "Linux":
+         import distro # TODO: Move 'import distro' to global scope when it supports cross platform
          platformInfo = list( distro.linux_distribution( full_distribution_name = False ) );
          platformInfo.append( platform.machine() )
          self.platformString = "-".join( platformInfo )
@@ -221,8 +222,8 @@ class BuildSystem:
       os.unsetenv( "VERSION" )
 
       for fileName in glob.glob( "/*.AppImage" ):
-         shutil.move( 
-            utility.joinPath( config.toolsPath(), fileName ), 
+         shutil.move(
+            utility.joinPath( config.toolsPath(), fileName ),
             utility.joinPath( config.binariesPath(), fileName ) )
 
    def __linuxMakeDebian( self ):
@@ -232,15 +233,15 @@ class BuildSystem:
       def makeChangeLog():
 
          if not os.path.exists( "./debian/changelog" ):
-            
+
             os.environ[ "SYNERGY_ENTERPRISE" ] = "1"
-            
+
             utility.runCommand( 'dch '
                '--create '
                '--package "' + self.productBaseName.lower() + '" '
-               '--controlmaint ' 
-               '--distribution unstable ' 
-               '--newversion ' + self.productVersion.lower() + ' ' 
+               '--controlmaint '
+               '--distribution unstable '
+               '--newversion ' + self.productVersion.lower() + ' '
                '"Snapshot release."' )
 
       def buildDebianPackage():
@@ -252,13 +253,13 @@ class BuildSystem:
       def moveDebianPackage():
 
          for fileName in glob.glob( "../" + self.productBaseName.lower() + "*.deb" ):
-            shutil.move( 
-               utility.joinPath( config.synergyCorePath(), fileName ), 
+            shutil.move(
+               utility.joinPath( config.synergyCorePath(), fileName ),
                utility.joinPath( config.binariesPath(), self.productPackageName + ".deb" ) )
 
          for fileName in glob.glob( "../" + self.productBaseName.lower() + "*" ):
-            shutil.move( 
-               utility.joinPath( config.synergyCorePath(), fileName ), 
+            shutil.move(
+               utility.joinPath( config.synergyCorePath(), fileName ),
                config.synergyBuildPath() )
 
       os.chdir( config.synergyCorePath() )
@@ -289,7 +290,7 @@ class BuildSystem:
             ' -S "' + config.synergyCorePath() + '" '
             ' -B "' + config.synergyBuildPath() + '" '
             " -D CMAKE_BUILD_TYPE=Release "
-            " -D SYNERGY_ENTERPRISE=ON " 
+            " -D SYNERGY_ENTERPRISE=ON "
             ' -D CMAKE_INSTALL_PREFIX:PATH="' + installPath + '" ' )
 
          os.chdir( config.synergyBuildPath() )
@@ -316,9 +317,9 @@ class BuildSystem:
          for fileName in glob.glob( "RPMS/x86_64/*.rpm" ):
             shutil.move( fileName, utility.joinPath( config.binariesPath(), self.productPackageName + ".rpm" ) )
 
-      # rpmbuild can't handle spaces in paths so we operate inside a temporary path 
+      # rpmbuild can't handle spaces in paths so we operate inside a temporary path
       with tempfile.TemporaryDirectory() as temporaryPath:
-         
+
          utility.printInfo( "Created: ", temporaryPath )
 
          rpmToplevelPath = makeSymlinkPath( temporaryPath )

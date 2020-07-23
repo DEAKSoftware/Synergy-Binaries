@@ -43,9 +43,8 @@ class Configuration():
 
          section = platform.system()
 
-         for name in dir( self ):
-            if not callable( getattr( self, name ) ) and not name.startswith( '__' ):
-               setattr( self, name, parser.get( section, name, fallback = "" ) )
+         for name in self.variableList():
+            setattr( self, name, parser.get( section, name, fallback = "" ) )
 
       def validateToplevelPath( self ):
 
@@ -69,7 +68,7 @@ class Configuration():
 
          def resolvePath( self, name, mustExist = True ):
 
-            path = getattr( self, name );
+            path = getattr( self, name )
             if not path: return
 
             path = utility.joinPath( self.toplevelPath, os.path.expanduser( path ) )
@@ -99,7 +98,7 @@ class Configuration():
          else:
 
             import distro # TODO: Move this to global scope when distro supports Windows
-            platformInfo = list( distro.linux_distribution( full_distribution_name = False ) );
+            platformInfo = list( distro.linux_distribution( full_distribution_name = False ) )
 
             while "" in platformInfo:
                platformInfo.remove( "" )
@@ -112,7 +111,7 @@ class Configuration():
       def configureProductVersion( self ):
 
          versionFile = open( self.productVersionPath, "r" )
-         versionData = versionFile.read();
+         versionData = versionFile.read()
          versionFile.close()
 
          versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
@@ -145,6 +144,10 @@ class Configuration():
 
       configurePlatformVersion( self )
       configureProductVersion( self )
+
+   def variableList( self ):
+
+         return dict( ( name, getattr( self, name ) ) for name in dir( self ) if not callable( getattr( self, name ) ) and not name.startswith( '__' ) )
 
 scriptPath = utility.joinPath( utility.basePathAtSource( __file__ ), ".." )
 configPath = utility.joinPath( scriptPath, "config.txt" )

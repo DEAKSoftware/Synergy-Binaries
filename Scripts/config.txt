@@ -11,9 +11,9 @@
 
 [Windows]
 
-   libQtPath          = C:\Qt\Qt5.12.9\5.12.9\msvc2017_64
-   vcvarsallPath      = C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
-   cmakeGenerator     = Visual Studio 16 2019
+   libQtPath      = C:\Qt\Qt5.12.9\5.12.9\msvc2017_64
+   vcvarsallPath  = C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
+   cmakeGenerator = Visual Studio 16 2019
 
 [Darwin]
 

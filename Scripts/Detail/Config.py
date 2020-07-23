@@ -107,28 +107,11 @@ class Configuration():
             self.platformVersion = "-".join( platformInfo )
 
          utility.printItem( "platformVersion: ", self.platformVersion )
+         utility.printHeading( "Loading configuration..." )
 
       def configureProductVersion( self ):
 
-         versionFile = open( self.productVersionPath, "r" )
-         versionData = versionFile.read()
-         versionFile.close()
-
-         versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
-
-         if len( versionParts ) != 4:
-            printError( "Failed to extract version information." )
-            raise SystemExit( 1 )
-
-         self.productVersion = ".".join( versionParts[ 0:3 ] )
-         self.productStage = versionParts[ 3 ]
-         self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()
-
-         utility.printItem( "productVersion: ", self.productVersion )
-         utility.printItem( "productStage: ", self.productStage )
-         utility.printItem( "productPackageName: ", self.productPackageName )
-
-      utility.printHeading( "Loading configuration..." )
+         self.updateProductVersion()
 
       loadConfiguration( self, configPath )
 
@@ -144,6 +127,26 @@ class Configuration():
 
       configurePlatformVersion( self )
       configureProductVersion( self )
+
+   def updateProductVersion( self ):
+
+      versionFile = open( self.productVersionPath, "r" )
+      versionData = versionFile.read()
+      versionFile.close()
+
+      versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
+
+      if len( versionParts ) != 4:
+         printError( "Failed to extract version information." )
+         raise SystemExit( 1 )
+
+      self.productVersion = ".".join( versionParts[ 0:3 ] )
+      self.productStage = versionParts[ 3 ]
+      self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()
+
+      utility.printItem( "productVersion: ", self.productVersion )
+      utility.printItem( "productStage: ", self.productStage )
+      utility.printItem( "productPackageName: ", self.productPackageName )
 
    def variableList( self ):
 

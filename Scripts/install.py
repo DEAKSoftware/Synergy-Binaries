@@ -1,30 +1,36 @@
 #!/usr/bin/env python3
 
-import os, platform
+import os, platform, sys
 
-print( "Installing tools for platform " + platform.system() )
+arguments = ""
 
-toolsPath = os.path.join( os.path.dirname( os.path.realpath( __file__ ) ), "Tools" )
+if len( sys.argv ) > 1:
+	if sys.argv[ 1 ] == "--upgrade":
+		arguments += "--upgrade"
+	elif sys.argv[ 1 ] == "-u":
+		arguments += "--upgrade"
+	else:
+	   print( "error: Invalid argument. Use '--upgrade' switch to upgrade packages, or none to install packages." )
+	   raise SystemExit( 1 )
 
-if ( platform.system() == "Darwin" ):
+basePath = os.path.dirname( os.path.realpath( __file__ ) )
 
-    command = os.path.join( toolsPath, "InstallToolsDarwin.sh" )
-    
-    os.system( command )
+scripts = {
+   "Darwin"  : "Install/InstallDarwin.sh",
+   "Linux"   : "Install/InstallLinux.sh",
+   "Windows" : "Install\\InstallWindows.ps1",
+   }
 
-elif ( platform.system() == "Linux" ):
+command = '"' + os.path.join( basePath, scripts[ platform.system() ] ) + '"'
 
-    command = os.path.join( toolsPath, "InstallToolsLinux.sh" )
+if platform.system() == "Windows":
+    command = "powershell.exe -File " + command
+    arguments = arguments.replace( "--", "-" )
 
-    os.system( command )
+command += ' ' + arguments
 
-elif ( platform.system() == "Windows" ):
+print( command )
 
-    command = os.path.join( toolsPath, "InstallToolsWindows.ps1" )
-
-    os.system( "powershell " + command )
-
-else:
-
-    print( "Unrecognised platform: " + platform.system() )
-    raise SystemExit( 1 )
+if os.system( command ) != 0:
+   print( "Command exited with error." )
+   raise SystemExit( 1 )

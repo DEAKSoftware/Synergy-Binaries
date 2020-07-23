@@ -29,7 +29,7 @@ The information presented here is based on the [official wiki pages](https://git
 
 3. Building the Binaries
 	* [Building on Linux Mint / Ubuntu](./Documentation/BuildLinux.md)
-	* [Building on macOS](./Documentation/BuildMacOS.md)
+	* [Building on macOS](./Documentation/BuildDarwin.md)
 	* [Building on Windows](./Documentation/BuildWindows.md)
 
 ## Disclaimers and Legal

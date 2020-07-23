@@ -48,7 +48,7 @@ def buildProducts():
    scripts = {
       "Darwin"  : "Scripts/Build/BuildDarwin.sh",
       "Linux"   : "Scripts/Build/BuildLinux.sh",
-      "Windows" : "Scripts/Build/BuildWindows.cmd",
+      "Windows" : "Scripts\\Build\\BuildWindows.cmd",
       }
 
    scriptPath = utility.joinPath( config.toplevelPath, scripts[ platform.system() ] )

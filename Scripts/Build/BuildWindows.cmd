@@ -2,7 +2,9 @@
 
 :main
 
-	if [%isConfigured] equ [] (
+	setlocal enableextensions
+
+	if [%vcvarsallPath] equ [] (
 		echo error: The required environment variables were not configured.
 		exit 1
 	)
@@ -14,11 +16,19 @@
 	call :buildMSI
 	call :buildZIP
 
+	endlocal
+
 	exit 0
 
 :configureCMake
 
-	cmake -S "%productRepoPath%" -B "%productBuildPath%" -G "%cmakeGenerator%" -D CMAKE_PREFIX_PATH="%libQtPath%" -D CMAKE_BUILD_TYPE=MINSIZEREL -D SYNERGY_ENTERPRISE=ON || exit 1
+	cmake -S "%productRepoPath%" -B "%productBuildPath%"^
+		-G "%cmakeGenerator%"^
+		-D CMAKE_PREFIX_PATH="%libQtPath%"^
+		-D CMAKE_BUILD_TYPE=Release^
+		-D SYNERGY_ENTERPRISE=ON^
+		-D SYNERGY_REVISION="%productRevision%"^
+		 || exit 1
 
 	exit /b 0
 

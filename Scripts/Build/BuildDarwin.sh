@@ -8,6 +8,7 @@ configureCMake() {
 		-D CMAKE_OSX_DEPLOYMENT_TARGET=10.12 \
 		-D CMAKE_OSX_ARCHITECTURES=x86_64 \
 		-D SYNERGY_ENTERPRISE=ON \
+      -D SYNERGY_REVISION="${productRevision}" \
 		|| exit 1
 
 }

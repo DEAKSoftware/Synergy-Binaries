@@ -25,21 +25,21 @@ def configureSubmodules():
       utility.printHeading( "Updating product version..." )
       config.updateProductVersion()
 
+   utility.printSuccess( "Git submodules are now up to date." )
+
 def configureEnvironment():
 
    utility.printHeading( "Configuring environment..." )
 
-   variables = config.variableList()
-
-   variables[ "isConfigured" ] = "1"
-
-   for name, value in variables.items():
+   for name, value in config.variableList().items():
 
       if value:
          print( "\tSetting: ${" + utility.style.bold + name + utility.style.none + "}" )
          os.environ[ name ] = value
       else:
          print( "\tUnused: " + utility.style.error + name + utility.style.none )
+
+   utility.printSuccess( "Build environment variables are now set." )
 
 def buildProducts():
 
@@ -54,6 +54,8 @@ def buildProducts():
    scriptPath = utility.joinPath( config.toplevelPath, scripts[ platform.system() ] )
 
    utility.runCommand( '"' + scriptPath + '"' )
+
+   utility.printSuccess( "Build completed successfully." )
 
 configureSubmodules()
 

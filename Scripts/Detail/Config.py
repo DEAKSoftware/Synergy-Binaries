@@ -23,6 +23,7 @@ class Configuration():
    productName        = "Synergy"
    productVersion     = "unknown-version"
    productStage       = "snapshot"
+   productRevision    = "0"
    productPackageName = "-".join( [ productName, productVersion, productStage ] ).lower()
    productRepoPath    = ""
    productBuildPath   = ""
@@ -135,7 +136,7 @@ class Configuration():
    def updateProductVersion( self ):
 
       if not os.path.exists( self.productVersionPath ):
-         
+
          utility.printWarning( "Unable to determine product version at this time; version file was missing:\n\t", self.productVersionPath )
 
       else:
@@ -152,11 +153,13 @@ class Configuration():
 
          self.productVersion = ".".join( versionParts[ 0:3 ] )
          self.productStage = versionParts[ 3 ]
+         self.productRevision = utility.captureCommandOutput( "git rev-parse --short=8 HEAD" )
 
       self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()
 
       utility.printItem( "productVersion: ", self.productVersion )
       utility.printItem( "productStage: ", self.productStage )
+      utility.printItem( "productRevision: ", self.productRevision )
       utility.printItem( "productPackageName: ", self.productPackageName )
 
    def variableList( self ):

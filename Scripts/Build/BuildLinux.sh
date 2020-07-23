@@ -5,6 +5,7 @@ configureCMake() {
    cmake -S "${productRepoPath}" -B "${productBuildPath}" \
       -D CMAKE_BUILD_TYPE=Release \
       -D SYNERGY_ENTERPRISE=ON \
+      -D SYNERGY_REVISION="${productRevision}" \
       || exit 1
 
 }
@@ -81,8 +82,8 @@ buildDeb() {
 
 buildRPM() {
 
-   # rpmbuild is very flaky with paths containing spaces, 
-   # so we set up a temporary build path and make sure no spaces 
+   # rpmbuild is very flaky with paths containing spaces,
+   # so we set up a temporary build path and make sure no spaces
    # are present in any paths.
    temporaryPath=$( mktemp -d -t "${productPackageName}-XXXXXXXX" )
 
@@ -95,7 +96,7 @@ buildRPM() {
 
    printf "Created temporary path:\n\t${temporaryPath}\n"
 
-   # We will symlink RPM build paths to our temporary location 
+   # We will symlink RPM build paths to our temporary location
    # and we'll do work in there.
    rpmToplevelPath="${temporaryPath}/rpm"
 
@@ -105,17 +106,19 @@ buildRPM() {
    installPath="${rpmBuildrootPath}/usr"
 
    if [[ ${rpmToplevelPath} = *" "* ]]; then
-      printf "error: RPM top-level path contained spaces:\n\t${rpmToplevelPath}\n"  
+      printf "error: RPM top-level path contained spaces:\n\t${rpmToplevelPath}\n"
+      exit 1
    fi
 
-   # Reconfigure with new intall path
+   # Reconfigure with new install path
    cmake -S "${productRepoPath}" -B "${productBuildPath}" \
       -D CMAKE_BUILD_TYPE=Release \
       -D SYNERGY_ENTERPRISE=ON \
+      -D SYNERGY_REVISION="${productRevision}" \
       -D CMAKE_INSTALL_PREFIX:PATH="${installPath}" \
       || exit 1
 
-   # Rebuild and deploy to intall path
+   # Rebuild and deploy to install path
    pushd "${productBuildPath}" || exit 1
 
       make -j || exit 1

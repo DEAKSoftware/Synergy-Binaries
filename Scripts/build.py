@@ -55,7 +55,7 @@ def buildProducts():
 
    utility.runCommand( '"' + scriptPath + '"' )
 
-# configureSubmodules()
+configureSubmodules()
 
 configureEnvironment()
 

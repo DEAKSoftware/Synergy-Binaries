@@ -19,9 +19,10 @@ def configureSubmodules():
    utility.runCommand( "git submodule update --init --remote --recursive" )
 
    statusAfter = utility.captureCommandOutput( "git submodule status" )
+   print( statusAfter )
 
    if statusBefore != statusAfter:
-      print( statusAfter )
+      utility.printHeading( "Updating product version..." )
       config.updateProductVersion()
 
 def configureEnvironment():
@@ -34,9 +35,11 @@ def configureEnvironment():
 
    for name, value in variables.items():
 
-      print( "\tSetting ${" + utility.style.bold + name + utility.style.none + "}" )
-
-      os.environ[ name ] = value
+      if value:
+         print( "\tSetting: ${" + utility.style.bold + name + utility.style.none + "}" )
+         os.environ[ name ] = value
+      else:
+         print( "\tUnused: " + utility.style.error + name + utility.style.none )
 
 def buildProducts():
 

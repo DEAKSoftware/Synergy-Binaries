@@ -20,10 +20,10 @@ class Configuration():
 
    platformVersion = ""
 
-   productName        = ""
+   productName        = "Synergy"
    productVersion     = "unknown-version"
    productStage       = "snapshot"
-   productPackageName = ""
+   productPackageName = "-".join( [ productName, productVersion, productStage ] ).lower()
    productRepoPath    = ""
    productBuildPath   = ""
    productVersionPath = ""
@@ -110,11 +110,12 @@ class Configuration():
             self.platformVersion = "-".join( platformInfo )
 
          utility.printItem( "platformVersion: ", self.platformVersion )
-         utility.printHeading( "Loading configuration..." )
 
       def configureProductVersion( self ):
 
          self.updateProductVersion()
+
+      utility.printHeading( "Loading configuration..." )
 
       loadConfiguration( self, configPath )
 

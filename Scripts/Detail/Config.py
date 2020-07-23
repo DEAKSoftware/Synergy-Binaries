@@ -1,128 +1,150 @@
 #!/bin/echo "This module must be imported by other Python scripts."
 
-import os, platform, configparser
+import configparser, os, platform, re, sys
 
 import Detail.Utility as utility
 
-class Configuration( configparser.ConfigParser ):
+assert sys.version_info >= ( 3, 8 )
+
+class Configuration():
+
+   upstreamURL  = ""
+   toplevelPath = ""
+   binariesPath = ""
+   toolsPath    = ""
+
+   libQtPath      = ""
+   vcvarsallPath  = ""
+   cmakeGenerator = ""
+   linuxdeployURL = ""
+
+   platformVersion = ""
+
+   productName        = ""
+   productPackageName = ""
+   productRepoPath    = ""
+   productBuildPath   = ""
+   productVersionPath = ""
 
    # Constructor
 
    def __init__( self, configPath ):
 
-      defaults = {
-         "upstreamURL"        : "",
-         "toplevelPath"       : "",
-         "synergyCorePath"    : "",
-         "synergyBuildPath"   : "",
-         "synergyVersionPath" : "",
-         "binariesPath"       : "",
-         "toolsPath"          : "",
-         "libQtPath"          : "",
-         "vcvarsallPath"      : "",
-         "cmakeGenerator"     : "",
-         "linuxdeployURL"     : "",
-         }
+      def loadConfiguration( self, configPath ):
 
-      super().__init__( dict_type = dict, allow_no_value = True, default_section = "All", defaults = defaults )
+         utility.printItem( "configPath: ", configPath )
 
-      self.read( configPath )
+         parser = configparser.ConfigParser(
+            dict_type = dict,
+            allow_no_value = True,
+            default_section = "All" )
 
-      def validateToplevelPath( config ):
+         parser.read( configPath )
 
-         utility.printHeading( "Git configuration..." )
+         section = platform.system()
 
-         section = platform.system();
+         for name in dir( self ):
+            if not callable( getattr( self, name ) ) and not name.startswith( '__' ):
+               setattr( self, name, parser.get( section, name, fallback = "" ) )
 
-         upstreamURL  = config[ section ][ "upstreamURL" ]
-         queriedURL   = utility.captureCommandOutput( "git config --get remote.origin.url" )
-         toplevelPath = utility.captureCommandOutput( "git rev-parse --show-toplevel" )
+      def validateToplevelPath( self ):
 
-         utility.printItem( "toplevelPath: ", toplevelPath )
-         utility.printItem( "upstreamURL: ", upstreamURL )
+         queriedURL = utility.captureCommandOutput( "git config --get remote.origin.url" )
+
+         self.toplevelPath = utility.captureCommandOutput( "git rev-parse --show-toplevel" )
+
+         utility.printItem( "toplevelPath: ", self.toplevelPath )
+         utility.printItem( "upstreamURL: ", self.upstreamURL )
          utility.printItem( "queriedURL: ", queriedURL )
 
-         if not os.path.exists( toplevelPath ):
-            utility.printError( "Git top level path does not exist:\n\t", toplevelPath )
+         if not os.path.exists( self.toplevelPath ):
+            utility.printError( "Git top level path does not exist:\n\t", self.toplevelPath )
             raise SystemExit( 1 )
 
-         if queriedURL != upstreamURL:
+         if queriedURL != self.upstreamURL:
             utility.printError( "The upstream URL at the current working directory does not match project upstream URL:\n\t", queriedURL )
             raise SystemExit( 1 )
 
-         config[ section ][ "toplevelPath" ] = toplevelPath
+      def validateConfigurationPaths( self ):
 
-      def validateConfigPaths( config ):
+         def resolvePath( self, name, mustExist = True ):
 
-         utility.printHeading( "Path configuration..." )
+            path = getattr( self, name );
+            if not path: return
 
-         def resolvePath( config, name, mustExist = True ):
+            path = utility.joinPath( self.toplevelPath, os.path.expanduser( path ) )
 
-            section = platform.system();
-            path = config[ section ][ name ]
+            utility.printItem( name + ": ", path )
 
-            if path != "":
-               path = utility.joinPath( config[ section ][ "toplevelPath" ], os.path.expanduser( path ) ) 
-               utility.printItem( name + ": ", path )
+            if not os.path.exists( path ) and mustExist:
+               utility.printError( "Required path does not exist:\n\t", path )
+               raise SystemExit( 1 )
 
-               if not os.path.exists( path ) and mustExist:
-                  utility.printError( "Required path does not exist:\n\t", path )
-                  raise SystemExit( 1 )
+            setattr( self, name, path )
 
-               config[ section ][ name ] = path
+         resolvePath( self, "productRepoPath" )
+         resolvePath( self, "productBuildPath", mustExist = False )
+         resolvePath( self, "productVersionPath", mustExist = False )
+         resolvePath( self, "binariesPath" )
+         resolvePath( self, "toolsPath" )
+         resolvePath( self, "libQtPath" )
+         resolvePath( self, "vcvarsallPath" )
 
-         resolvePath( config, "synergyCorePath" )
-         resolvePath( config, "synergyBuildPath", mustExist = False )
-         resolvePath( config, "synergyVersionPath", mustExist = False )
-         resolvePath( config, "binariesPath" )
-         resolvePath( config, "toolsPath" )
-         resolvePath( config, "libQtPath" )
-         resolvePath( config, "vcvarsallPath" )
+      def configurePlatformVersion( self ):
+
+         if platform.system() == "Windows":
+
+            self.platformVersion = "-".join( [ platform.system(), platform.release(), platform.machine() ] )
+
+         else:
+
+            import distro # TODO: Move this to global scope when distro supports Windows
+            platformInfo = list( distro.linux_distribution( full_distribution_name = False ) );
+
+            while "" in platformInfo:
+               platformInfo.remove( "" )
+
+            platformInfo.append( platform.machine() )
+            self.platformVersion = "-".join( platformInfo )
+
+         utility.printItem( "platformVersion: ", self.platformVersion )
+
+      def configureProductVersion( self ):
+
+         versionFile = open( self.productVersionPath, "r" )
+         versionData = versionFile.read();
+         versionFile.close()
+
+         versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
+
+         if len( versionParts ) != 4:
+            printError( "Failed to extract version information." )
+            raise SystemExit( 1 )
+
+         self.productVersion = ".".join( versionParts[ 0:3 ] )
+         self.productStage = versionParts[ 3 ]
+         self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()
+
+         utility.printItem( "productVersion: ", self.productVersion )
+         utility.printItem( "productStage: ", self.productStage )
+         utility.printItem( "productPackageName: ", self.productPackageName )
+
+      utility.printHeading( "Loading configuration..." )
+
+      loadConfiguration( self, configPath )
+
+      utility.printHeading( "Git configuration..." )
 
       validateToplevelPath( self )
-      validateConfigPaths( self )
 
-   # Convenience accessors
+      utility.printHeading( "Path configuration..." )
 
-   def toplevelPath( self ):
+      validateConfigurationPaths( self )
 
-      return self.get(  platform.system(), "toplevelPath" )
+      utility.printHeading( "Version configuration..." )
 
-   def synergyCorePath( self ):
-
-      return self.get(  platform.system(), "synergyCorePath" )
-
-   def synergyBuildPath( self ):
-
-      return self.get(  platform.system(), "synergyBuildPath" )
-
-   def synergyVersionPath( self ):
-
-      return self.get( platform.system(), "synergyVersionPath" )
-
-   def binariesPath( self ):
-
-      return self.get(  platform.system(), "binariesPath" )
-
-   def toolsPath( self ):
-
-      return self.get(  platform.system(), "toolsPath" )
-
-   def libQtPath( self ):
-
-      return self.get( platform.system(), "libQtPath" )
-
-   def vcvarsallPath( self ):
-
-      return self.get( platform.system(), "vcvarsallPath" )
-
-   def cmakeGenerator( self ):
-
-      return self.get( platform.system(), "cmakeGenerator" )
-
-   def linuxdeployURL( self ):
-
-      return self.get( platform.system(), "linuxdeployURL" )
+      configurePlatformVersion( self )
+      configureProductVersion( self )
 
 scriptPath = utility.joinPath( utility.basePathAtSource( __file__ ), ".." )
 configPath = utility.joinPath( scriptPath, "config.txt" )

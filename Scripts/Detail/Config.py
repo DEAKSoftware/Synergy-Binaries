@@ -21,6 +21,8 @@ class Configuration():
    platformVersion = ""
 
    productName        = ""
+   productVersion     = "unknown-version"
+   productStage       = "snapshot"
    productPackageName = ""
    productRepoPath    = ""
    productBuildPath   = ""
@@ -44,7 +46,8 @@ class Configuration():
          section = platform.system()
 
          for name in self.variableList():
-            setattr( self, name, parser.get( section, name, fallback = "" ) )
+            value = parser.get( section, name, fallback = getattr( self, name ) )
+            setattr( self, name, value )
 
       def validateToplevelPath( self ):
 
@@ -130,18 +133,25 @@ class Configuration():
 
    def updateProductVersion( self ):
 
-      versionFile = open( self.productVersionPath, "r" )
-      versionData = versionFile.read()
-      versionFile.close()
+      if not os.path.exists( self.productVersionPath ):
+         
+         utility.printWarning( "Unable to determine product version at this time; version file was missing:\n\t", self.productVersionPath )
 
-      versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
+      else:
 
-      if len( versionParts ) != 4:
-         printError( "Failed to extract version information." )
-         raise SystemExit( 1 )
+         versionFile = open( self.productVersionPath, "r" )
+         versionData = versionFile.read()
+         versionFile.close()
 
-      self.productVersion = ".".join( versionParts[ 0:3 ] )
-      self.productStage = versionParts[ 3 ]
+         versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
+
+         if len( versionParts ) != 4:
+            printError( "Failed to extract version information." )
+            raise SystemExit( 1 )
+
+         self.productVersion = ".".join( versionParts[ 0:3 ] )
+         self.productStage = versionParts[ 3 ]
+
       self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()
 
       utility.printItem( "productVersion: ", self.productVersion )

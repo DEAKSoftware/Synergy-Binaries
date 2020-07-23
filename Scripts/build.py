@@ -13,13 +13,15 @@ def configureSubmodules():
 
    os.chdir( config.toplevelPath )
 
-   status = utility.captureCommandOutput( "git submodule status" )
-
-   print( status )
+   statusBefore = utility.captureCommandOutput( "git submodule status" )
+   print( statusBefore )
 
    utility.runCommand( "git submodule update --init --remote --recursive" )
 
-   if status != utility.captureCommandOutput( "git submodule status" ):
+   statusAfter = utility.captureCommandOutput( "git submodule status" )
+
+   if statusBefore != statusAfter:
+      print( statusAfter )
       config.updateProductVersion()
 
 def configureEnvironment():

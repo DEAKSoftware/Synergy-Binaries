@@ -14,8 +14,6 @@
    call :buildMSI
    call :buildZIP
 
-   endlocal
-
    exit 0
 
 :configureCMake

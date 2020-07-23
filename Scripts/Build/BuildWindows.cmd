@@ -2,8 +2,6 @@
 
 :main
 
-	setlocal enableextensions
-
 	if [%vcvarsallPath] equ [] (
 		echo error: The required environment variables were not configured.
 		exit 1

@@ -1,0 +1,5 @@
+cmake
+git
+libsodium
+openssl
+python

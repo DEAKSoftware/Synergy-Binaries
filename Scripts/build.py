@@ -59,4 +59,4 @@ configureSubmodules()
 
 configureEnvironment()
 
-# buildProducts()
+buildProducts()

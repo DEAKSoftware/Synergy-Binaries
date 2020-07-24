@@ -1,6 +1,6 @@
-## Cloning the Repository
+## Getting Started
 
-### Preparation
+### Cloning This Repository
 
 Before you begin building Synergy, you need to recursively clone this project and its submodules:
 
@@ -23,10 +23,8 @@ The following files or directories should be of interest:
 
 File / Directory                                           | Description
 ---                                                        | ---
-[`Binaries`](./Binaries)                                   | Output location for the build binaries.
-[`Documentation`](./Documentation)                         | Documentation for various scripts.
+[`Binaries`](./Binaries)                                   | Output location for the build products.
+[`Documentation`](./Documentation)                         | Contains project documentation.
 [`Synergy-Core`](https://github.com/symless/synergy-core/) | The official Synergy Core submodule.
+[`Scripts`](./Scripts)                                     | Collection of Python build scripts.
 [`Tools`](./Tools)                                         | Temporary location for build tools.
-[`buildLinux.sh`](./buildLinux.sh)                         | Shell script for building binaries in Linux Mint or Ubuntu.
-[`buildMacOS.sh`](./buildMacOS.sh)                         | Shell script for building binaries in macOS.
-[`buildWindows.cmd`](./buildWindows.cmd)                   | Command script for building binaries in Windows.

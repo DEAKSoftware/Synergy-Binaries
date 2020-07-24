@@ -18,19 +18,17 @@ If you can't locate a binary package for your particular distribution, try build
 
 ## Building
 
-The information presented here is based on the [official wiki pages](https://github.com/symless/synergy-core/wiki). Anyone attempting to build Synergy should consult the official wiki pages first, then read build instructions specific for your platform.
+The build system in this project where hacked together from information presented on the official Synergy Core [wiki pages](https://github.com/symless/synergy-core/wiki/), and from the Azure Pipeline [configuration files](https://github.com/symless/synergy-core/tree/master/CI/), found in the sources. Anyone attempting to build Synergy should consult the official wiki pages first, or use Azure Pipelines to generate all packages (if appropriate). Otherwise, you can try using the build scripts in this project.
 
 1. Official Documentation
 	* [Compiling](https://github.com/symless/synergy-core/wiki/Compiling), and [Compiling Synergy Core](https://github.com/symless/synergy-core/wiki/Compiling-Synergy-Core)
 	* [Building the Windows MSI Package](https://github.com/symless/synergy-core/wiki/Building-the-Windows-MSI-Package)
 
-2. Getting Started
-	* [Cloning the Repository](./Documentation/Cloning.md)
-
-3. Building the Binaries
-	* [Building on Linux Mint / Ubuntu](./Documentation/BuildLinux.md)
-	* [Building on macOS](./Documentation/BuildDarwin.md)
-	* [Building on Windows](./Documentation/BuildWindows.md)
+2. Building the Binaries
+	* [Getting Started](./Documentation/GettingStarted.md)
+	* [Building on Linux Mint / Ubuntu](./Documentation/BuildingOnLinux.md)
+	* [Building on macOS](./Documentation/BuildingOnDarwin.md)
+	* [Building on Windows](./Documentation/BuildingOnWindows.md)
 
 ## Disclaimers and Legal
 

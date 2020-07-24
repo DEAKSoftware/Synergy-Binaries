@@ -13,4 +13,5 @@ utility.runCommand( "git clean -fdx" )
 
 os.chdir( config.toplevelPath )
 
-utility.runCommand( "git clean -fdx" )
+# Clean with capital -X switch to preserve user-edited config files
+utility.runCommand( "git clean -fdX" )

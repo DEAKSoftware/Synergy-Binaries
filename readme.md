@@ -8,7 +8,8 @@ This repository provides some convenience tools and documentation for building S
 
 ## Download
 
-* [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0) (macOS, Linux, Windows)
+* [Synergy 1.12.0-rc2](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc2) (macOS, Linux, Windows)
+* [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc1) (macOS, Linux, Windows)
 
 See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions. If you can't locate a binary package for your particular distribution, try building the project yourself.
 

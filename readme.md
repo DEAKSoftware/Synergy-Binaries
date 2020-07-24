@@ -8,8 +8,14 @@ This repository provides some convenience tools and documentation for building S
 
 ## Download
 
-* [Synergy 1.12.0-rc2](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc2) (macOS, Linux, Windows)
-* [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc1) (macOS, Linux, Windows)
+* [Synergy 1.12.0-rc2](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc2)
+* [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc1)
+
+Binaries are available for the following platforms:
+
+* macOS 10.12 Sierra: `.dmg`
+* Linux Mint 20 Ulyana: `.deb`, `.rpm`, `.AppImage`
+* Windows 7: `.msi`, portable `.zip`
 
 See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions. If you can't locate a binary package for your particular distribution, try building the project yourself.
 

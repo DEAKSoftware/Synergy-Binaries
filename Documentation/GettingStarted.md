@@ -23,8 +23,8 @@ The following files or directories should be of interest:
 
 File / Directory                                           | Description
 ---                                                        | ---
-[`Binaries`](./Binaries)                                   | Output location for the build products.
-[`Documentation`](./Documentation)                         | Contains project documentation.
+[`Binaries`](../Binaries)                                  | Output location for the build products.
+[`Documentation`](../Documentation)                        | Contains project documentation.
 [`Synergy-Core`](https://github.com/symless/synergy-core/) | The official Synergy Core submodule.
-[`Scripts`](./Scripts)                                     | Collection of Python build scripts.
-[`Tools`](./Tools)                                         | Temporary location for build tools.
+[`Scripts`](../Scripts)                                    | Collection of Python build scripts.
+[`Tools`](../Tools)                                        | Temporary location for build tools.

@@ -10,7 +10,7 @@
       * [Qt 5](https://www.qt.io/download/), select the following components:
          * Qt 5.12.9 / macOS
 
-2. Edit the [`Scripts\config.txt`](../Scripts/config.txt) file and make sure the following variables are configured properly under the `[Darwin]` section:
+2. Edit the [`Scripts/config.txt`](../Scripts/config.txt) file and make sure the following variables are configured properly under the `[Darwin]` section:
 
       * `libQtPath` -- Full path to the Qt library, clang, 64-bit build.
 

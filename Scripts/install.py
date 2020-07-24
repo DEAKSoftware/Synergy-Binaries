@@ -6,9 +6,7 @@ arguments = ""
 
 if len( sys.argv ) > 1:
 	if sys.argv[ 1 ] == "--upgrade":
-		arguments += "--upgrade"
-	elif sys.argv[ 1 ] == "-u":
-		arguments += "--upgrade"
+		arguments += sys.argv[ 1 ]
 	else:
 	   print( "error: Invalid argument. Use '--upgrade' switch to upgrade packages, or none to install packages." )
 	   raise SystemExit( 1 )

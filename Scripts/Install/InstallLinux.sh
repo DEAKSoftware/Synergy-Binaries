@@ -22,7 +22,7 @@ set -o nounset
 
 installToolsPath="$(cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P)"
 
-if [ "${1}" = "--upgrade" ] || [ "${1}" = "-u" ]; then
+if [ "${1}" = "--upgrade" ]; then
 	upgrade
 elif [ -z "${1}" ]; then
 	install

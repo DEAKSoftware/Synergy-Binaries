@@ -2,7 +2,7 @@
 
 install() {
 
-	cat "${installToolsPath}/PackageListAPT.txt" | xargs sudo apt-get install -y || exit 1
+   xargs sudo apt-get install -y < "${installToolsPath}/PackageListAPT.txt" || exit 1
 
 	sudo pip3 install -r "${installToolsPath}/PackageListPython.txt" || exit 1
 
@@ -10,9 +10,9 @@ install() {
 
 upgrade() {
 
-	sudo apt-get upgrade
+	sudo apt-get update
 
-	cat "${installToolsPath}/PackageListAPT.txt" | xargs sudo apt-get upgrade -y || exit 1
+   xargs sudo apt-get upgrade -y < "${installToolsPath}/PackageListAPT.txt" || exit 1
 
 	sudo pip3 install -r "${installToolsPath}/PackageListPython.txt" --upgrade || exit 1
 

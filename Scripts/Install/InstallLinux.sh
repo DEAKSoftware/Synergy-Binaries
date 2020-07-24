@@ -22,9 +22,9 @@ set -o nounset
 
 installToolsPath="$(cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P)"
 
-if [ "${1}" = "--upgrade" ]; then
+if [ "${1-}" = "--upgrade" ]; then
 	upgrade
-elif [ -z "${1}" ]; then
+elif [ -z "${1-}" ]; then
 	install
 else
 	echo "error: Invalid argument. Use '--upgrade' switch to upgrade packages, or none to install packages."

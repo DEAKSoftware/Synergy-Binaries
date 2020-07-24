@@ -8,13 +8,9 @@ This repository provides some convenience tools and documentation for building S
 
 ## Download
 
-The following binaries available in the [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) section:
+* [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0) (macOS, Linux, Windows)
 
-* Linux `AppImage`, `deb` packages
-* Windows `MSI` installer, or standalone `ZIP` package
-* macOS `dmg` packages
-
-If you can't locate a binary package for your particular distribution, try building the project yourself.
+See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions. If you can't locate a binary package for your particular distribution, try building the project yourself.
 
 ## Building
 
@@ -26,8 +22,8 @@ The build system in this project where hacked together from information presente
 
 2. Building the Binaries
 	* [Getting Started](./Documentation/GettingStarted.md)
-	* [Building on Linux Mint / Ubuntu](./Documentation/BuildingOnLinux.md)
 	* [Building on macOS](./Documentation/BuildingOnDarwin.md)
+	* [Building on Linux Mint / Ubuntu](./Documentation/BuildingOnLinux.md)
 	* [Building on Windows](./Documentation/BuildingOnWindows.md)
 
 ## Disclaimers and Legal

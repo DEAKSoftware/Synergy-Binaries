@@ -164,7 +164,7 @@ class Configuration():
 
    def variableList( self ):
 
-         return dict( ( name, getattr( self, name ) ) for name in dir( self ) if not callable( getattr( self, name ) ) and not name.startswith( '__' ) )
+      return dict( ( name, getattr( self, name ) ) for name in dir( self ) if not callable( getattr( self, name ) ) and not name.startswith( '__' ) )
 
 scriptPath = utility.joinPath( utility.basePathAtSource( __file__ ), ".." )
 configPath = utility.joinPath( scriptPath, "config.txt" )

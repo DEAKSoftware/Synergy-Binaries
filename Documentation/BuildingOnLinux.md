@@ -36,7 +36,7 @@ Similarly, one can clean the project, which resets Git repositories to a clean s
 
 ### Launching Automatically
 
-In Linux Mint we can launch `synergy` client automatically via _System Settings &rarr; Startup Applications_, then add an entry with the command:
+In Linux Mint we can launch the Synergy client automatically via _System Settings &rarr; Startup Applications_, then add an entry with the command:
 
 ```sh
 /usr/bin/synergyc --name ClientName --daemon #.#.#.#

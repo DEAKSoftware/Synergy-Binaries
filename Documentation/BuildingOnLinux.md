@@ -11,7 +11,7 @@
 
       * If Python is already installed:
          ```sh
-         python.exe ./Scripts/install.py [--upgrade]
+         ./Scripts/install.py [--upgrade]
          ```
       * If Python is not installed:
          ```sh

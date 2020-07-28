@@ -32,7 +32,7 @@
          powershell.exe -File Scripts\Install\InstallWindows.ps1 [-upgrade]
          ```
 
-      Use the `--upgrade` switch (Python), the or `-upgrade` switch (PowerShell) to refresh packages at a later date.
+      Use the `--upgrade` switch (Python), or the `-upgrade` switch (PowerShell) to refresh packages at a later date.
 
 ### Building
 

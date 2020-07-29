@@ -51,9 +51,11 @@ buildDeb() {
 
       if [ ! -f "./debian/changelog" ]; then
 
-         # Make the productName lowercase
+         # Make a lowercase package name to comply with 
+         # Debian changelog formatting requirements.
          packageName=$( echo "${productName}" | tr "[:upper:]" "[:lower:]" )
 
+         # Create a changelog file.
          dch --create --controlmaint --distribution unstable \
             --package "${packageName}" \
             --newversion "${productVersion}" \

@@ -31,7 +31,7 @@ def configureEnvironment():
 
    utility.printHeading( "Configuring environment..." )
 
-   for name, value in config.variableList().items():
+   for name, value in config.propertyList().items():
 
       if value:
          print( "\tSetting: ${" + utility.style.bold + name + utility.style.none + "}" )

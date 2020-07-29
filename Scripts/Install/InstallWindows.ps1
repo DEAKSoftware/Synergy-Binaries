@@ -24,8 +24,11 @@ $upgradeBlock =
    {
    param( [ string ] $installToolsPath )
 
+   [System.Xml.XmlDocument]$packageListChocoXML = new-object System.Xml.XmlDocument
    $packageListChocoPath = Join-Path -Path $installToolsPath -ChildPath "PackageListChoco.config"
-   choco upgrade all
+   $packageListChocoXML.load( $packageListChocoPath )
+   $packages = ( $packageListChocoXML.SelectNodes( '/packages/package' ) | ForEach-Object { $PSItem.id } )
+   choco upgrade $packages
    refreshenv
 
    $packageListPythonPath = Join-Path -Path $installToolsPath -ChildPath "PackageListPython.txt"

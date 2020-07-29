@@ -32,7 +32,7 @@ buildDMG() {
 
    ln -s /Applications "${productBuildPath}/bundle/Applications"
 
-   hdiutil create -volname "${productName} ${productVersion}" -srcfolder "${productBuildPath}/bundle" -ov -format UDZO "${binariesPath}/${productPackageName}.dmg" || exit 1
+   hdiutil create -volname "${productName} ${productVersion}-${productStage}" -srcfolder "${productBuildPath}/bundle" -ov -format UDZO "${binariesPath}/${productPackageName}.dmg" || exit 1
 
 }
 

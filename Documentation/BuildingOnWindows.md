@@ -18,7 +18,7 @@
 2. Edit the [`Scripts\config.txt`](../Scripts/config.txt) file and make sure the following variables are configured properly under the `[Windows]` section:
 
       * `libQtPath` -- Full path to the Qt library, Visual C++, 64-bit build.
-      * `vcvarsallPath` -- Full path to Visual Studio's `vcvarsall.bat` command script. which sets compiler environment variables. See [Microsoft C++ toolset documentation](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019) for details.
+      * `vcvarsallPath` -- Full path to Visual Studio's `vcvarsall.bat` command script. This sets the necessary compiler environment variables for building. See [Microsoft C++ toolset documentation](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019) for details.
       * `cmakeGenerator` -- Specifies the generator setting for cmake. Run `cmake --help` to choose a suitable generator that best matches the Visual Studio version installed earlier.
 
 3. Run the installer script to configure additional dependencies, as noted below. If you wish to examine what packages will be installed, see package lists [`PackageListChoco.config`](../Scripts/Install/PackageListChoco.config) and [`PackageListPython.txt`](../Scripts/Install/PackageListPython.txt).
@@ -32,7 +32,7 @@
          powershell.exe -File Scripts\Install\InstallWindows.ps1 [-upgrade]
          ```
 
-      Use the `--upgrade` switch (or `-upgrade` switch for PowerShell) to refresh packages at a later date.
+      Use the `--upgrade` switch (Python), or the `-upgrade` switch (PowerShell) to refresh packages at a later date.
 
 ### Building
 

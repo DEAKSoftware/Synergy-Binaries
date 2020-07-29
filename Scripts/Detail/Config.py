@@ -46,7 +46,7 @@ class Configuration():
 
          section = platform.system()
 
-         for name in self.variableList():
+         for name in self.propertyList():
             value = parser.get( section, name, fallback = getattr( self, name ) )
             setattr( self, name, value )
 
@@ -162,7 +162,9 @@ class Configuration():
       utility.printItem( "productRevision: ", self.productRevision )
       utility.printItem( "productPackageName: ", self.productPackageName )
 
-   def variableList( self ):
+   # Property list
+
+   def propertyList( self ):
 
       return dict( ( name, getattr( self, name ) ) for name in dir( self ) if not callable( getattr( self, name ) ) and not name.startswith( '__' ) )
 

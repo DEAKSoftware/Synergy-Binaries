@@ -1,7 +1,7 @@
 ---
-name: Update Request
+name: Binary Request
 about: Request an update for Synergy binaries
-title: 'Update Request: [SPECIFY VERSION HERE]'
+title: 'Binary Request: [SPECIFY VERSION HERE]'
 labels: Update
 assignees: ''
 ---

@@ -17,7 +17,7 @@ Binaries are available for the following platforms:
 * Linux Mint 20 Ulyana: `.deb`, `.rpm`, `.AppImage`
 * Windows 7: `.msi`, portable `.zip`
 
-See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions. If you can't locate a binary package for your particular distribution, try building the project yourself.
+See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions. If a particular version is missing, [create a new issue](https://github.com/DEAKSoftware/Synergy-Binaries/issues/new/choose) to request new binaries. If you can't locate a binary package for your particular distribution, you might want to try building the project yourself.
 
 ## Building
 

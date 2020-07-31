@@ -26,4 +26,4 @@ Describe what actually happened after completing the steps above.
 
 ### Additional Notes
 
-Provide additional information, such as references to related problems or workarounds, or logs text formatted inside a pair of \`\`\` tags.
+Provide additional information, such as references to related problems or workarounds, or log text formatted inside a pair of \`\`\` tags.

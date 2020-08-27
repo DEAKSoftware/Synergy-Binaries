@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a bug report if something is broken in the build system
+about: Create a bug report if something is broken in the build system.
 title: ''
 labels: Bug
 assignees: ''
@@ -8,7 +8,7 @@ assignees: ''
 
 Provide a descriptive summary of the issue.
 
-**NOTE:** Do not submit bug reports for Synergy here. Only submit issues regarding build scripts relating to this repository.
+**NOTE:** Do not submit bug reports for the Synergy application here. Only submit issues relating to the build scripts in this repository.
 
 ### Steps to Reproduce
 
@@ -26,4 +26,4 @@ Describe what actually happened after completing the steps above.
 
 ### Additional Notes
 
-Provide additional information, such as references to related problems or workarounds.
+Provide additional information, such as references to related problems, workarounds, or log text formatted inside a [code quoting block](https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax#quoting-code).

@@ -20,9 +20,9 @@ buildApplication() {
       make -j || exit 1
       make install/strip || exit 1
 
-      macdeployqt "${productBuildPath}/bundle/Synergy.app" || exit 1
+      "${libQtPath}/bin/macdeployqt" "${productBuildPath}/bundle/Synergy.app" || exit 1
 
-      rsync -a --delete "${productBuildPath}/bundle/Synergy.app" "${binariesPath}/${productName}.app" || exit 1
+      rsync -av --delete "${productBuildPath}/bundle/Synergy.app/" "${binariesPath}/${productName}.app/" || exit 1
 
    popd
 

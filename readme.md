@@ -8,6 +8,7 @@ This repository provides some convenience tools and documentation for building S
 
 ## Download
 
+* [Synergy 1.12.0-stable](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-stable)
 * [Synergy 1.12.0-rc2](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc2)
 * [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc1)
 

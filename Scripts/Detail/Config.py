@@ -147,12 +147,12 @@ class Configuration():
 
          versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
 
-         if len( versionParts ) != 4:
-            printError( "Failed to extract version information." )
+         if len( versionParts ) == 0:
+            utility.printError( "Failed to extract version information." )
             raise SystemExit( 1 )
 
-         self.productVersion = ".".join( versionParts[ 0:3 ] )
-         self.productStage = versionParts[ 3 ]
+         self.productVersion = ".".join( versionParts[ 0:-1 ] )
+         self.productStage = versionParts[ -1 ]
          self.productRevision = utility.captureCommandOutput( "git rev-parse --short=8 HEAD" )
 
       self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()

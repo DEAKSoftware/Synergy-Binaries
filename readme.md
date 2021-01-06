@@ -6,6 +6,7 @@
 
 ## Download
 
+* [Synergy 1.13.1.1-snapshot](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.13.1.1-snapshot)
 * [Synergy 1.12.0-stable](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-stable)
 * [Synergy 1.12.0-rc2](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc2)
 * [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc1)

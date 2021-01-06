@@ -2,9 +2,7 @@
 
 ## About
 
-[Synergy](https://github.com/symless/synergy-core) is a keyboard and mouse sharing tool for devices connected over a network. Up until version 1.8.8, binaries were freely available to download from the official project website. Since then, Synergy maintainers have decided to publish binaries behind a pay wall. However, Synergy is an open source project, and therefore anyone can build the application on their system.
-
-This repository provides some convenience tools and documentation for building Synergy. Alternatively, one can also download the pre-compiled binaries, see below.
+[Synergy](https://github.com/symless/synergy-core) is a keyboard and mouse sharing tool for devices connected over a network. This repository maintains Synergy binaries to download, including convenience tools and documentation for building the Synergy application.
 
 ## Download
 

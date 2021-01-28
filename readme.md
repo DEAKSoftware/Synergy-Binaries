@@ -35,6 +35,6 @@ The build system in this project where hacked together from information presente
 
 ## Disclaimers and Legal
 
-DEAK Software is not the maintainer of Synergy, nor is affiliated with Symless in anyway way. Bugs or issues related to the application should be reported directly on the [official Synergy GitHub page](https://github.com/symless/synergy-core).
+DEAK Software is not the maintainer of Synergy, nor is affiliated with Symless in any way. Bugs or issues related to the application should be reported directly on the [official Synergy GitHub page](https://github.com/symless/synergy-core).
 
 This project is released under the [MIT License](./license.md).

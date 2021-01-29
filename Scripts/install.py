@@ -14,7 +14,7 @@ command = '"' + os.path.join( basePath, scripts[ platform.system() ] ) + '"'
 arguments = ' ' + ' '.join( sys.argv[ 1: ] )
 
 if platform.system() == "Windows":
-    command = "powershell.exe -File " + command
+    command = "powershell.exe -noprofile -executionpolicy bypass -File " + command
     arguments = arguments.replace( "--", "-" )
 
 command += arguments

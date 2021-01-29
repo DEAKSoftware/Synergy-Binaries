@@ -102,7 +102,7 @@ buildRPM() {
    # and we'll do work in there.
    rpmToplevelPath="${temporaryPath}/rpm"
 
-   ln -s "${productBuildPath}/rpm" "${rpmToplevelPath}"
+   ln -s "${productBuildPath}/rpm" "${rpmToplevelPath}" || exit 1
 
    rpmBuildrootPath="${rpmToplevelPath}/BUILDROOT"
    installPath="${rpmBuildrootPath}/usr"
@@ -136,13 +136,14 @@ buildRPM() {
          synergy.spec \
          || exit 1
 
-      mv "RPMS/x86_64/"*.rpm "${binariesPath}/${productPackageName}.rpm"
+      mv "RPMS/"*.rpm "${binariesPath}/${productPackageName}.rpm" || exit 1
 
    popd
 
 }
 
 set -o nounset
+# set -o xtrace
 
 configureCMake
 buildBinaries

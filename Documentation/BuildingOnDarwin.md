@@ -35,6 +35,12 @@ Build the project with the following Python script. Packages will be copied into
 ./Scripts/build.py
 ```
 
+To build a specific version of the product, supply the appropriate tag name (or commit hash) as an argument:
+
+```sh
+./Scripts/build.py --checkout 1.13.1.3-snapshot
+```
+
 Similarly, one can clean the project, which resets Git repositories to a clean state:
 
 ```sh

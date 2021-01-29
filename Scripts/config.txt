@@ -7,7 +7,6 @@
    productName        = Synergy
    productRepoPath    = ./Synergy-Core
    productBuildPath   = ./Synergy-Core/build
-   productVersionPath = ./Synergy-Core/cmake/Version.cmake
 
 [Windows]
 

@@ -1,6 +1,6 @@
 #!/bin/echo "This module must be imported by other Python scripts."
 
-import configparser, os, platform, re, sys
+import argparse, configparser, os, platform, re, sys
 
 import Detail.Utility as utility
 
@@ -27,11 +27,22 @@ class Configuration():
    productPackageName = "-".join( [ productName, productVersion, productStage ] ).lower()
    productRepoPath    = ""
    productBuildPath   = ""
-   productVersionPath = ""
+   productCheckout    = ""
 
    # Constructor
 
    def __init__( self, configPath ):
+
+      def programOptions( self ):
+
+         parser = argparse.ArgumentParser( description =
+            "This utility builds the Synergy-Core binaries. The product version is extracted from the most recent Git tag. One can also build older versions "
+            "by checking out specific git tags, see options below." )
+
+         parser.add_argument( "--checkout", dest = "productCheckout", help = "Checkout and build a specific Git tag (or commit hash) for the Synergy-Core submodule." )
+
+         for key, value in vars( parser.parse_args() ).items():
+            setattr( self, key, value )
 
       def loadConfiguration( self, configPath ):
 
@@ -87,7 +98,6 @@ class Configuration():
 
          resolvePath( self, "productRepoPath" )
          resolvePath( self, "productBuildPath", mustExist = False )
-         resolvePath( self, "productVersionPath", mustExist = False )
          resolvePath( self, "binariesPath" )
          resolvePath( self, "toolsPath" )
          resolvePath( self, "libQtPath" )
@@ -116,6 +126,8 @@ class Configuration():
 
          self.updateProductVersion()
 
+      programOptions( self )
+
       utility.printHeading( "Loading configuration..." )
 
       loadConfiguration( self, configPath )
@@ -135,32 +147,27 @@ class Configuration():
 
    def updateProductVersion( self ):
 
-      if not os.path.exists( self.productVersionPath ):
+      os.chdir( self.productRepoPath )
 
-         utility.printWarning( "Unable to determine product version at this time; version file was missing:\n\t", self.productVersionPath )
+      lastTag = utility.captureCommandOutput( "git describe --tags --abbrev=0" )
 
-      else:
+      matches = re.search( "v?(\d+(?:\.\d+)+)-(\w+)", lastTag )
 
-         versionFile = open( self.productVersionPath, "r" )
-         versionData = versionFile.read()
-         versionFile.close()
+      if not matches:
+         utility.printError( "Unable to extract version information from Git tags." )
+         raise SystemExit( 1 )
 
-         versionParts = re.findall( r'set \(SYNERGY_VERSION_\w+ "?(\w+)"?\)', versionData )
-
-         if len( versionParts ) == 0:
-            utility.printError( "Failed to extract version information." )
-            raise SystemExit( 1 )
-
-         self.productVersion = ".".join( versionParts[ 0:-1 ] )
-         self.productStage = versionParts[ -1 ]
-         self.productRevision = utility.captureCommandOutput( "git rev-parse --short=8 HEAD" )
-
+      self.productVersion = matches.group( 1 ) 
+      self.productStage = matches.group( 2 )
+      self.productRevision = utility.captureCommandOutput( "git rev-parse --short=8 HEAD" )
       self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()
 
       utility.printItem( "productVersion: ", self.productVersion )
       utility.printItem( "productStage: ", self.productStage )
       utility.printItem( "productRevision: ", self.productRevision )
       utility.printItem( "productPackageName: ", self.productPackageName )
+
+      os.chdir( self.toplevelPath )
 
    # Property list
 

@@ -18,6 +18,11 @@ def configureSubmodules():
 
    utility.runCommand( "git submodule update --init --remote --recursive" )
 
+   if config.productCheckoutTag:
+      os.chdir( config.productRepoPath )
+      utility.runCommand( "git checkout " + config.productCheckoutTag )
+      os.chdir( config.toplevelPath )
+
    statusAfter = utility.captureCommandOutput( "git submodule status" )
    print( statusAfter )
 

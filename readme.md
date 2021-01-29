@@ -6,6 +6,7 @@
 
 ## Download
 
+* [Synergy 1.13.1.1-snapshot](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.13.1.1-snapshot)
 * [Synergy 1.12.0-stable](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-stable)
 * [Synergy 1.12.0-rc2](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc2)
 * [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc1)
@@ -34,6 +35,6 @@ The build system in this project where hacked together from information presente
 
 ## Disclaimers and Legal
 
-DEAK Software is not the maintainer of Synergy, nor is affiliated with Symless in anyway way. Bugs or issues related to the application should be reported directly on the [official Synergy GitHub page](https://github.com/symless/synergy-core).
+DEAK Software is not the maintainer of Synergy, nor is affiliated with Symless in any way. Bugs or issues related to the application should be reported directly on the [official Synergy GitHub page](https://github.com/symless/synergy-core).
 
 This project is released under the [MIT License](./license.md).

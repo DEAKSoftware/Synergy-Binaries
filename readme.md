@@ -7,20 +7,15 @@
 ## Download
 
 * [Synergy 1.13.1.41-stable](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.13.1.41-stable)
-* [Synergy 1.13.1.38-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.13.1.38-rc1)
-* [Synergy 1.13.1.18-snapshot](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.13.1.18-snapshot)
-* [Synergy 1.13.1.1-snapshot](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.13.1.1-snapshot)
 * [Synergy 1.12.0-stable](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-stable)
-* [Synergy 1.12.0-rc2](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc2)
-* [Synergy 1.12.0-rc1](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-rc1)
 
 Binaries are available for the following platforms:
 
 * macOS 10.12 Sierra: `.dmg`
 * Linux Mint 20 Ulyana: `.deb`, `.rpm`, `.AppImage`
-* Windows 7: `.msi`, portable `.zip`
+* Windows 10: `.msi`, portable `.zip`
 
-See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions. If a particular version is missing, [create a new issue](https://github.com/DEAKSoftware/Synergy-Binaries/issues/new/choose) to request new binaries. If you can't locate a binary package for your particular distribution, you might want to try building the project yourself.
+See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions, such as release candidates, patches, etc. If a particular version is missing, [create a new issue](https://github.com/DEAKSoftware/Synergy-Binaries/issues/new/choose) to request new binaries. If you can't locate a binary package for your particular distribution, you might want to try building the project yourself.
 
 ## Building
 

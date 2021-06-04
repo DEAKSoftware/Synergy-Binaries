@@ -151,15 +151,17 @@ class Configuration():
 
       lastTag = utility.captureCommandOutput( "git describe --tags --abbrev=0" )
 
-      matches = re.search( "v?(\d+(?:\.\d+)+)-(\w+)", lastTag )
+      utility.printItem( "lastTag: ", lastTag )
+
+      matches = re.search( "v?(\d+(?:\.\d+)+)(?:-(\w+))?", lastTag )
 
       if not matches:
          utility.printError( "Unable to extract version information from Git tags." )
          raise SystemExit( 1 )
 
       self.productVersion = matches.group( 1 ) 
-      self.productStage = matches.group( 2 )
       self.productRevision = utility.captureCommandOutput( "git rev-parse --short=8 HEAD" )
+      self.productStage = matches.group( 2 ) if matches.group( 2 ) else self.productRevision
       self.productPackageName = "-".join( [ self.productName, self.productVersion, self.productStage, self.platformVersion ] ).lower()
 
       utility.printItem( "productVersion: ", self.productVersion )

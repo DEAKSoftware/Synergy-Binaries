@@ -14,6 +14,7 @@ class Configuration():
    toolsPath    = ""
 
    libQtPath      = ""
+   openSSLPath    = ""
    vcvarsallPath  = ""
    cmakeGenerator = ""
    linuxdeployURL = ""

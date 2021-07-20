@@ -3,14 +3,13 @@
 configureCMake() {
 
    cmake -S "${productRepoPath}" -B "${productBuildPath}" \
-      -D CMAKE_PREFIX_PATH="${libQtPath}" \
+      -D CMAKE_PREFIX_PATH="${libQtPath};${openSSLPath}" \
       -D CMAKE_BUILD_TYPE=Release \
       -D CMAKE_OSX_DEPLOYMENT_TARGET=10.12 \
       -D CMAKE_OSX_ARCHITECTURES=x86_64 \
       -D SYNERGY_ENTERPRISE=ON \
       -D SYNERGY_REVISION="${productRevision}" \
       || exit 1
-
 }
 
 buildApplication() {

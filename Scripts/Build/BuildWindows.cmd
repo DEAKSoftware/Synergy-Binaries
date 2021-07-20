@@ -20,7 +20,7 @@
 
    cmake -S "%productRepoPath%" -B "%productBuildPath%"^
       -G "%cmakeGenerator%"^
-      -D CMAKE_PREFIX_PATH="%libQtPath%"^
+      -D CMAKE_PREFIX_PATH="%libQtPath%;%openSSLPath%"^
       -D CMAKE_BUILD_TYPE=Release^
       -D SYNERGY_ENTERPRISE=ON^
       -D SYNERGY_REVISION="%productRevision%"^

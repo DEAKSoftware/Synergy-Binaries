@@ -11,6 +11,7 @@
 [Windows]
 
    libQtPath      = C:\Qt\Qt5.12.9\5.12.9\msvc2017_64
+   openSSLPath    = .\Synergy-Core\ext\openssl\windows\x64
    vcvarsallPath  = C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
 
    # Run cmake --help to choose a suitable generator
@@ -18,7 +19,8 @@
 
 [Darwin]
 
-   libQtPath = ~/Qt5.12.9/5.12.9/clang_64
+   libQtPath   = ~/Qt5.12.9/5.12.9/clang_64
+   openSSLPath = /usr/local/opt/openssl
 
 [Linux]
 

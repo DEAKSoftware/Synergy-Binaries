@@ -102,6 +102,7 @@ class Configuration():
          resolvePath( self, "binariesPath" )
          resolvePath( self, "toolsPath" )
          resolvePath( self, "libQtPath" )
+         resolvePath( self, "openSSLPath" )
          resolvePath( self, "vcvarsallPath" )
 
       def configurePlatformVersion( self ):

@@ -81,8 +81,8 @@
    copy "%sourcePath%\Styles" "%productPath%\Styles" || exit 1
 
    mkdir "%productPath%\OpenSSL"
-   copy "%productRepoPath%\ext\openssl\windows\x64\bin\*" "%productPath%\OpenSSL" || exit 1
-   copy "%productRepoPath%\ext\openssl\windows\x64\bin\*.dll" "%productPath%" || exit 1
+   copy "%openSSLPath%\bin\*" "%productPath%\OpenSSL" || exit 1
+   copy "%openSSLPath%\bin\*.dll" "%productPath%" || exit 1
 
    set zipPath=%binariesPath%\%productPackageName%.zip
 

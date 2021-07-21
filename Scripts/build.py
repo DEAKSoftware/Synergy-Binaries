@@ -65,6 +65,6 @@ def buildProducts():
 
 configureSubmodules()
 
-# configureEnvironment()
+configureEnvironment()
 
-# buildProducts()
+buildProducts()

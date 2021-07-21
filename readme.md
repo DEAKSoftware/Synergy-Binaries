@@ -6,9 +6,6 @@
 
 ## Download
 
-* [Synergy 1.13.1.41-stable](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.13.1.41-stable)
-* [Synergy 1.12.0-stable](https://github.com/DEAKSoftware/Synergy-Binaries/releases/tag/1.12.0-stable)
-
 Binaries are available for the following platforms:
 
 * macOS 10.12 Sierra: `.dmg`

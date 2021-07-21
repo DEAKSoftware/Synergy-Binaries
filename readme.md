@@ -8,7 +8,7 @@
 
 Binaries are available for the following platforms:
 
-* macOS 10.12 Sierra: `.dmg`
+* macOS 11.4 Big Sur: `.dmg`
 * Linux Mint 20 Ulyana: `.deb`, `.rpm`, `.AppImage`
 * Windows 10: `.msi`, portable `.zip`
 

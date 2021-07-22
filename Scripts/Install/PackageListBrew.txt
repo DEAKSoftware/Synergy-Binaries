@@ -3,3 +3,4 @@ git
 libsodium
 openssl
 python
+qt5

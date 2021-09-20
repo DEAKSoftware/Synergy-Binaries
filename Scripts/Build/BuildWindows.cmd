@@ -18,6 +18,9 @@
 
 :configureCMake
 
+   mkdir -p "%productRepoPath%\ext\openssl\windows\x64"
+   xcopy "%openSSLPath%" "%productRepoPath%\ext\openssl\windows\x64" /e /y || exit 1
+
    cmake -S "%productRepoPath%" -B "%productBuildPath%"^
       -G "%cmakeGenerator%"^
       -D CMAKE_PREFIX_PATH="%libQtPath%;%openSSLPath%"^

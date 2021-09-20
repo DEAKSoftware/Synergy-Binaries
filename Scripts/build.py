@@ -17,6 +17,7 @@ def configureSubmodules():
    print( statusBefore )
 
    utility.runCommand( "git submodule update --init --remote --recursive" )
+   utility.runCommand( "git submodule foreach --recursive 'git fetch --tags'" )
 
    if config.productCheckout:
       os.chdir( config.productRepoPath )

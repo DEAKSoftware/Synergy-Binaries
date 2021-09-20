@@ -19,8 +19,8 @@
 
 [Darwin]
 
-   libQtPath   = ~/Qt5.12.9/5.12.9/clang_64
-   openSSLPath = /usr/local/opt/openssl
+   libQtPath   = /usr/local/opt/qt@5
+   openSSLPath = /usr/local/opt/openssl@1.1
 
 [Linux]
 

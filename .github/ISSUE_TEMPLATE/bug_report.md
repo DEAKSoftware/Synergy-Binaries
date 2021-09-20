@@ -10,6 +10,12 @@ Provide a descriptive summary of the issue.
 
 **NOTE:** Do not submit bug reports for the Synergy application here. Only submit issues relating to the build scripts in this repository.
 
+### System Information
+
+* Operating System: _[Example: macOS Big Sur 11.5 (20G71)]_  
+* Build Environment: _[Example: Xcode 13.0 beta 3 (13A5192i)]_  
+* Synergy Version: _[Example: Synergy 1.14.0.4-stable]_  
+
 ### Steps to Reproduce
 
 1. Describe any preparation work or required setup, if appropriate;

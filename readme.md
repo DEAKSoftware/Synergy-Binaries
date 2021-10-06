@@ -6,7 +6,7 @@
 
 ## Download
 
-Binaries are available for the following platforms:
+Binaries are available for the following platforms (64-bit only, unless stated otherwise):
 
 * macOS: `.dmg`
 * Linux: `.deb`, `.rpm`, portable `.AppImage`

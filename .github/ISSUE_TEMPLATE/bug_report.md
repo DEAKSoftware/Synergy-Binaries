@@ -32,4 +32,12 @@ Describe what actually happened after completing the steps above.
 
 ### Additional Notes
 
-Provide additional information, such as references to related problems, workarounds, or log text formatted inside a [code quoting block](https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax#quoting-code).
+Provide additional information, such as references to related problems, workarounds, or log text (see example below): 
+
+<details><summary>Log info (click to expand)</summary>
+
+```
+Paste log data in here.
+```
+</details>
+ 

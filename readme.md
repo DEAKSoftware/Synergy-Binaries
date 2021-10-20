@@ -6,11 +6,11 @@
 
 ## Download
 
-Binaries are available for the following platforms:
+Binaries are available for the following platforms (64-bit only, unless stated otherwise):
 
-* macOS 11.4 Big Sur: `.dmg`
-* Linux Mint 20 Ulyana: `.deb`, `.rpm`, portable `.AppImage`
-* Windows 10: `.msi`, portable `.zip`
+* macOS: `.dmg`
+* Linux: `.deb`, `.rpm`, portable `.AppImage`
+* Windows: `.msi`, portable `.zip`
 
 See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions, such as release candidates, patches, etc. If a particular version is missing, [create a new issue](https://github.com/DEAKSoftware/Synergy-Binaries/issues/new/choose) to request new binaries. If you can't locate a binary package for your particular distribution, you might want to try building the project yourself.
 

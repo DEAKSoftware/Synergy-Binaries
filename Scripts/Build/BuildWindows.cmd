@@ -89,7 +89,7 @@
 
    set zipPath=%binariesPath%\%productPackageName%.zip
 
-   powershell.exe -nologo -noprofile -command "& { Compress-Archive -Force -Path '%productPath%' -DestinationPath '%zipPath%' }" || exit 1
+   powershell.exe -ExecutionPolicy Bypass -nologo -noprofile -command "& { Import-Module Microsoft.PowerShell.Archive; Compress-Archive -Force -Path '%productPath%' -DestinationPath '%zipPath%' }" || exit 1
 
    endlocal
    exit /b 0

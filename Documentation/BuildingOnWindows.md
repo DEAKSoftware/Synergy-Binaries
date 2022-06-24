@@ -22,7 +22,7 @@
          ```
       * If Python is not installed:
          ```bat
-         powershell.exe -File Scripts\Install\InstallWindows.ps1 [-upgrade]
+         powershell.exe -ExecutionPolicy Bypass -File Scripts\Install\InstallWindows.ps1 [-upgrade]
          ```
 
       Use the `--upgrade` switch (Python), or the `-upgrade` switch (PowerShell) to refresh packages at a later date.

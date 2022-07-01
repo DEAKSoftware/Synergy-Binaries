@@ -122,6 +122,8 @@ class Configuration():
             platformInfo.append( platform.machine() )
             self.platformVersion = "-".join( platformInfo )
 
+         self.platformVersion = self.platformVersion.replace( " ", "-" )
+
          utility.printItem( "platformVersion: ", self.platformVersion )
 
       def configureProductVersion( self ):

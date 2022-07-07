@@ -14,6 +14,8 @@ Binaries are available for the following platforms (64-bit only, unless stated o
 
 See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions, such as release candidates, patches, etc. If a particular version is missing, [create a new issue](https://github.com/DEAKSoftware/Synergy-Binaries/issues/new/choose) to request new binaries. If you can't locate a binary package for your particular distribution, you might want to try building the project yourself.
 
+Alternatively, consider supporting the official Synergy developers by [purchasing a copy](https://symless.com/synergy/purchase). 
+
 ## Building
 
 The build system in this project where hacked together from information presented on the official Synergy Core [wiki pages](https://github.com/symless/synergy-core/wiki/), and from the Azure Pipeline [configuration files](https://github.com/symless/synergy-core/tree/master/CI/), found in the sources. Anyone attempting to build Synergy should consult the official wiki pages first, or use Azure Pipelines to generate all packages (if appropriate). Otherwise, you can try using the build scripts in this project.

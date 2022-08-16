@@ -12,7 +12,7 @@ Binaries are available for the following platforms (64-bit only, unless stated o
 * Linux: `.deb`, `.rpm`, portable `.AppImage`
 * Windows: `.msi`, portable `.zip`
 
-See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions, such as release candidates, patches, etc. If a particular version is missing, [create a new issue](https://github.com/DEAKSoftware/Synergy-Binaries/issues/new/choose) to request new binaries. If you can't locate a binary package for your particular distribution, you might want to try building the project yourself.
+See [Releases](https://github.com/DEAKSoftware/Synergy-Binaries/releases) for additional versions. This project focuses mostly on stable releases. If a particular version is missing, [create a new issue](https://github.com/DEAKSoftware/Synergy-Binaries/issues/new/choose) to request new binaries. If you can't locate a binary package for your particular distribution, you might want to try building the project yourself.
 
 Alternatively, consider supporting the official Synergy developers by [purchasing a copy](https://symless.com/synergy/purchase). 
 

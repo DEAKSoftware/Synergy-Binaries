@@ -14,6 +14,7 @@ Provide a descriptive summary of the issue.
 
 * Operating System: _[Example: macOS Big Sur 11.5 (20G71)]_  
 * Build Environment: _[Example: Xcode 13.0 beta 3 (13A5192i)]_  
+* Python Version: _[Example: Python 3.10.8]_  
 * Synergy Version: _[Example: Synergy 1.14.0.4-stable]_  
 
 ### Steps to Reproduce

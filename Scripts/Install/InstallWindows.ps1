@@ -9,7 +9,7 @@ $installBlock =
    iex ( ( New-Object System.Net.WebClient ).DownloadString( 'https://chocolatey.org/install.ps1' ) )
 
    $packageListChocoPath = Join-Path -Path $installToolsPath -ChildPath "PackageListChoco.config"
-   choco install "$packageListChocoPath"
+   choco install --force "$packageListChocoPath"
    refreshenv
 
    $packageListPythonPath = Join-Path -Path $installToolsPath -ChildPath "PackageListPython.txt"
@@ -32,6 +32,7 @@ $upgradeBlock =
    refreshenv
 
    $packageListPythonPath = Join-Path -Path $installToolsPath -ChildPath "PackageListPython.txt"
+   python.exe -m pip install --upgrade pip
    pip3 install -r "$packageListPythonPath" --upgrade
    refreshenv
 

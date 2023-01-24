@@ -4,7 +4,7 @@ install() {
 
    xargs sudo apt-get install -y < "${installToolsPath}/PackageListAPT.txt" || exit 1
 
-   sudo pip3 install -r "${installToolsPath}/PackageListPython.txt" || exit 1
+   pip3 install -r "${installToolsPath}/PackageListPython.txt" || exit 1
 
 }
 
@@ -14,7 +14,7 @@ upgrade() {
 
    xargs sudo apt-get upgrade -y < "${installToolsPath}/PackageListAPT.txt" || exit 1
 
-   sudo pip3 install -r "${installToolsPath}/PackageListPython.txt" --upgrade || exit 1
+   pip3 install -r "${installToolsPath}/PackageListPython.txt" --upgrade || exit 1
 
 }
 

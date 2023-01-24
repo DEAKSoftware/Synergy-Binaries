@@ -4,7 +4,11 @@ install() {
 
 	sudo xcode-select --install 
 
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || exit 1
+	which -s brew
+
+	if [[ $? != 0 ]]; then
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || exit 1
+	fi
 
 	xargs brew install < "${installToolsPath}/PackageListBrew.txt" || exit 1
 

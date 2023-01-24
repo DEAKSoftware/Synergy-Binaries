@@ -14,13 +14,13 @@
    openSSLPath    = c:\Program Files\OpenSSL-Win64
    vcvarsallPath  = c:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat
 
-   # Run cmake --help to choose a suitable generator
+   # Run "cmake --help" to choose a suitable generator
    cmakeGenerator = Visual Studio 17 2022
 
 [Darwin]
 
-   libQtPath   = /usr/local/opt/qt@5
-   openSSLPath = /usr/local/opt/openssl@1.1
+   libQtPath   = /opt/homebrew/opt/qt@5
+   openSSLPath = /opt/homebrew/opt/openssl@1.1
 
 [Linux]
 

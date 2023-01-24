@@ -9,7 +9,7 @@ $installBlock =
    iex ( ( New-Object System.Net.WebClient ).DownloadString( 'https://chocolatey.org/install.ps1' ) )
 
    $packageListChocoPath = Join-Path -Path $installToolsPath -ChildPath "PackageListChoco.config"
-   choco install --force "$packageListChocoPath"
+   choco install "$packageListChocoPath"
    refreshenv
 
    $packageListPythonPath = Join-Path -Path $installToolsPath -ChildPath "PackageListPython.txt"

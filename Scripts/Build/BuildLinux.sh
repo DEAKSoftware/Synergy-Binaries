@@ -128,6 +128,11 @@ buildRPM() {
 
    popd
 
+   # Remove "synergy-core" from "BUILDROOT", as it's not part of the "synergy.spec" file list. Otherwise, 
+   # the extra file will cause rpmbuild to emit "Installed (but unpackaged) file(s) found" errors. Hopefully 
+   # Synergy devs will fix this problem in the future and the following hack won't be needed.
+   rm "${rpmBuildrootPath}/usr/bin/synergy-core"
+
    pushd "${rpmToplevelPath}" || exit 1
 
       rpmbuild -bb \

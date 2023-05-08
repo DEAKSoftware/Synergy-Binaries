@@ -21,6 +21,8 @@ buildApplication() {
 
       "${libQtPath}/bin/macdeployqt" "${productBuildPath}/bundle/Synergy.app" || exit 1
 
+      codesign --force --deep --sign - "${productBuildPath}/bundle/Synergy.app" || exit 1
+
       rsync -av --delete "${productBuildPath}/bundle/Synergy.app/" "${binariesPath}/${productName}.app/" || exit 1
 
    popd

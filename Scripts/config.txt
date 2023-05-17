@@ -19,8 +19,13 @@
 
 [Darwin]
 
+   # Brew install paths for ARM architectures
    libQtPath   = /opt/homebrew/opt/qt@5
    openSSLPath = /opt/homebrew/opt/openssl@1.1
+
+   # Brew install paths for x86_64 architectures
+   # libQtPath   = /usr/local/opt/qt@5
+   # openSSLPath = /usr/local/opt/openssl@1.1
 
 [Linux]
 

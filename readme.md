@@ -4,6 +4,10 @@
 
 [Synergy](https://github.com/symless/synergy-core) is a keyboard and mouse sharing tool for devices connected over a network. This repository maintains Synergy binaries to download, including convenience tools and documentation for building the Synergy application.
 
+## This Project is No Longer Maintained
+
+Please note, Synergy was officially forked into the [Deskflow](https://github.com/deskflow/deskflow) project. This fork now offers continuous integration builds for Deskflow, which is freely available directly on their [releases page](https://github.com/deskflow/deskflow/releases). Now that Deskflow maintainers offer official binaries to download, the current project _Synergy Binaries_ has become obsolete and is no longer maintained. I would like to thank everyone taking part in offering support/suggestions to this project. 
+
 ## Download
 
 Binaries are available for the following platforms (64-bit only, unless stated otherwise):
@@ -35,3 +39,4 @@ The build system in this project where hacked together from information presente
 DEAK Software is not the maintainer of Synergy, nor is affiliated with Symless in any way. Bugs or issues related to the application should be reported directly on the [official Synergy GitHub page](https://github.com/symless/synergy-core).
 
 This project is released under the [MIT License](./license.md).
+
